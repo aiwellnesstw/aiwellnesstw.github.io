@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ai.wellness.tw | 健康生活 × AI 好物分享</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Noto Sans TC', sans-serif;
+      background: linear-gradient(160deg, #fdf9f2 0%, #f5ede0 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ── 頂部 profile ── */
+    .profile {
+      width: 100%;
+      max-width: 480px;
+      padding: 52px 24px 24px;
+      text-align: center;
+    }
+
+    .avatar {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #c8a45e;
+      box-shadow: 0 4px 20px rgba(200,164,94,0.3);
+      margin-bottom: 16px;
+    }
+
+    .username {
+      font-size: 19px;
+      font-weight: 800;
+      color: #1a1a1a;
+      letter-spacing: 0.5px;
+    }
+
+    .tagline {
+      font-size: 14px;
+      color: #7a7060;
+      margin-top: 8px;
+      line-height: 1.8;
+    }
+
+    /* ── slogan 卡片 ── */
+    .slogan {
+      max-width: 432px;
+      width: calc(100% - 48px);
+      background: linear-gradient(135deg, #fff8ee, #fef0d8);
+      border: 1.5px solid #e8d4a8;
+      border-radius: 20px;
+      padding: 20px 24px;
+      margin: 20px 24px 28px;
+      text-align: center;
+    }
+
+    .slogan-line {
+      font-size: 15px;
+      color: #7a5c1e;
+      line-height: 2;
+    }
+
+    .slogan-code {
+      font-size: 26px;
+      font-weight: 900;
+      color: #c8a45e;
+      letter-spacing: 3px;
+      display: block;
+      margin: 4px 0;
+    }
+
+    /* ── 按鈕區 ── */
+    .links {
+      width: 100%;
+      max-width: 480px;
+      padding: 0 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 18px 20px;
+      border-radius: 18px;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .btn:active { transform: scale(0.97); }
+
+    .btn-gold {
+      background: linear-gradient(135deg, #d4a84b, #b8893a);
+      color: #fff;
+      box-shadow: 0 6px 24px rgba(180,130,50,0.38);
+    }
+
+    .btn-green {
+      background: linear-gradient(135deg, #6db97a, #4e9e5d);
+      color: #fff;
+      box-shadow: 0 6px 24px rgba(78,158,93,0.32);
+    }
+
+    .btn-white {
+      background: #fff;
+      color: #2d2d2d;
+      border: 1.5px solid #e4d9c8;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    }
+
+    .btn-icon { font-size: 20px; line-height: 1; }
+
+    /* ── footer ── */
+    footer {
+      margin-top: 44px;
+      padding-bottom: 36px;
+      font-size: 12px;
+      color: #c0b8aa;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="profile">
+    <img class="avatar" src="avatar.png" alt="ai.wellness.tw">
+    <div class="username">ai.wellness.tw</div>
+    <div class="tagline">
+      ✨ AI 生成｜健康生活影像<br>
+      🌿 好物真實分享，從日常開始
+    </div>
+  </div>
+
+  <div class="slogan">
+    <div class="slogan-line">推薦輸入</div>
+    <span class="slogan-code">20885</span>
+    <div class="slogan-line">要你幫幫我，追蹤訂單我幫你 🌿</div>
+  </div>
+
+  <div class="links">
+
+    <a href="LINE_OA_LINK" class="btn btn-gold">
+      <span class="btn-icon">🍯</span>
+      了解這款滴雞精
+    </a>
+
+    <a href="LINE_OA_LINK" class="btn btn-green">
+      <span class="btn-icon">💚</span>
+      成為健康會員（推薦人填 20885）
+    </a>
+
+    <a href="https://joinhome.tw" class="btn btn-white">
+      <span class="btn-icon">📦</span>
+      查看全系列產品
+    </a>
+
+    <a href="LINE_PERSONAL_LINK" class="btn btn-white">
+      <span class="btn-icon">📱</span>
+      私訊我詢問
+    </a>
+
+  </div>
+
+  <footer>ai.wellness.tw · 健康好物分享</footer>
+
+</body>
+</html>
