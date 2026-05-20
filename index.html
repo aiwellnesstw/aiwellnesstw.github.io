@@ -131,6 +131,42 @@
       color: #c0b8aa;
       text-align: center;
     }
+
+    /* ── 影片彈窗 ── */
+    .video-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+      z-index: 999;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .video-modal.open { display: flex; }
+
+    .video-modal video {
+      max-height: 88vh;
+      max-width: min(100vw, 420px);
+      border-radius: 14px;
+    }
+
+    .video-close {
+      position: absolute;
+      top: 18px;
+      right: 22px;
+      background: rgba(255,255,255,0.15);
+      border: none;
+      color: #fff;
+      font-size: 22px;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   </style>
 </head>
 <body>
@@ -152,7 +188,7 @@
 
   <div class="links">
 
-    <a href="https://line.me/R/ti/p/@937jwoqg" class="btn btn-gold">
+    <a href="#" class="btn btn-gold" onclick="openVideo(event)">
       <span class="btn-icon">🍯</span>
       了解這款滴雞精
     </a>
@@ -175,6 +211,29 @@
   </div>
 
   <footer>ai.wellness.tw · 健康好物分享</footer>
+
+  <!-- 影片彈窗 -->
+  <div id="videoModal" class="video-modal" onclick="closeVideo(event)">
+    <button class="video-close" onclick="closeVideo()">✕</button>
+    <video id="promoVideo" src="wellness-video.mp4" controls playsinline></video>
+  </div>
+
+  <script>
+    function openVideo(e) {
+      e.preventDefault();
+      const modal = document.getElementById('videoModal');
+      modal.classList.add('open');
+      document.getElementById('promoVideo').play();
+    }
+    function closeVideo(e) {
+      if (e && e.target !== e.currentTarget && !e.target.classList.contains('video-close')) return;
+      const modal = document.getElementById('videoModal');
+      modal.classList.remove('open');
+      const v = document.getElementById('promoVideo');
+      v.pause();
+      v.currentTime = 0;
+    }
+  </script>
 
 </body>
 </html>
