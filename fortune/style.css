@@ -1,0 +1,293 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Noto Sans TC', 'PingFang TC', sans-serif;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  min-height: 100vh;
+  transition: background 0.6s ease;
+}
+
+#app {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 16px 16px 32px;
+}
+
+.screen { display: none; }
+.screen.active { display: block; }
+.hidden { display: none !important; }
+
+/* ── Header ── */
+.header {
+  text-align: center;
+  padding: 16px 0 12px;
+  color: white;
+}
+.header-brand {
+  font-size: 13px;
+  letter-spacing: 2px;
+  opacity: 0.8;
+}
+.date-display {
+  font-size: 18px;
+  font-weight: 700;
+  margin-top: 4px;
+}
+.weather-display {
+  font-size: 16px;
+  margin-top: 4px;
+  opacity: 0.9;
+}
+
+/* ── Referral banner ── */
+.referral-banner {
+  background: rgba(255,255,255,0.22);
+  backdrop-filter: blur(8px);
+  border-radius: 14px;
+  padding: 12px 16px;
+  text-align: center;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+/* ── Input card ── */
+.input-card {
+  background: white;
+  border-radius: 22px;
+  padding: 26px 22px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.18);
+}
+.input-title {
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
+  color: #5A4FCF;
+  margin-bottom: 22px;
+}
+.input-label {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 8px;
+}
+.name-input {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 18px;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  outline: none;
+  transition: border-color 0.2s;
+  margin-bottom: 20px;
+}
+.name-input:focus { border-color: #667eea; }
+
+.zodiac-section-label {
+  font-size: 15px;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 12px;
+}
+
+/* ── Zodiac grid ── */
+.zodiac-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 9px;
+  margin-bottom: 22px;
+}
+.zodiac-item {
+  border: 2px solid #eee;
+  border-radius: 13px;
+  padding: 10px 4px 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.zodiac-item:active { transform: scale(0.94); }
+.zodiac-item.selected {
+  border-color: #667eea;
+  background: #f0f0ff;
+}
+.zodiac-emoji { font-size: 24px; display: block; }
+.zodiac-name { font-size: 13px; color: #555; margin-top: 3px; font-weight: 600; }
+.zodiac-dates { font-size: 10px; color: #aaa; margin-top: 1px; }
+
+/* ── Submit btn ── */
+.submit-btn {
+  width: 100%;
+  padding: 16px;
+  font-size: 18px;
+  font-weight: 700;
+  color: white;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 1px;
+}
+.submit-btn:disabled { background: #ccc; cursor: not-allowed; }
+.submit-btn:not(:disabled):active { transform: scale(0.97); }
+
+/* ── Footer links ── */
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 18px 0 4px;
+  flex-wrap: wrap;
+}
+.footer-links a {
+  color: rgba(255,255,255,0.8);
+  text-decoration: none;
+  font-size: 13px;
+}
+.footer-links a:hover { color: white; }
+
+/* ── Result header ── */
+.result-header {
+  display: flex;
+  align-items: center;
+  padding: 12px 0 10px;
+}
+.back-btn {
+  background: rgba(255,255,255,0.2);
+  border: none;
+  color: white;
+  font-size: 14px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.result-brand {
+  flex: 1;
+  text-align: right;
+  color: rgba(255,255,255,0.75);
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+/* ── Result card ── */
+.result-card {
+  background: white;
+  border-radius: 22px;
+  padding: 26px 22px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.18);
+}
+.result-title {
+  font-size: 22px;
+  font-weight: 700;
+  text-align: center;
+  color: #333;
+  margin-bottom: 6px;
+}
+.result-zodiac-badge {
+  text-align: center;
+  font-size: 15px;
+  color: #888;
+  margin-bottom: 22px;
+}
+
+/* ── Energy ── */
+.energy-section {
+  text-align: center;
+  padding: 22px 16px 18px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #f5f7ff, #ede9ff);
+  margin-bottom: 18px;
+}
+.energy-number {
+  font-size: 80px;
+  font-weight: 900;
+  line-height: 1;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.energy-unit { font-size: 18px; color: #999; margin-top: -4px; }
+.energy-label { font-size: 20px; font-weight: 700; color: #5A4FCF; margin-top: 10px; }
+
+/* ── Lucky ── */
+.lucky-section {
+  display: flex;
+  align-items: center;
+  background: #f7f7f7;
+  border-radius: 14px;
+  padding: 14px 18px;
+  margin-bottom: 18px;
+}
+.lucky-item { flex: 1; display: flex; align-items: center; gap: 12px; }
+.lucky-color-swatch {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  border: 3px solid white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  flex-shrink: 0;
+}
+.lucky-number-icon { font-size: 30px; flex-shrink: 0; }
+.lucky-divider { width: 1px; height: 38px; background: #ddd; margin: 0 14px; }
+.lucky-item-label { font-size: 12px; color: #aaa; }
+.lucky-item-value { font-size: 19px; font-weight: 700; color: #333; }
+
+/* ── Fortune text ── */
+.fortune-text {
+  font-size: 17px;
+  line-height: 1.8;
+  color: #444;
+  padding: 16px 18px;
+  background: #fffdf0;
+  border-radius: 12px;
+  border-left: 4px solid #FFD700;
+  margin-bottom: 18px;
+}
+
+/* ── CTA ── */
+.cta-section {
+  background: linear-gradient(135deg, #fff5f5, #ffe8e8);
+  border-radius: 14px;
+  padding: 18px 16px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+.cta-text {
+  font-size: 16px;
+  color: #c0392b;
+  margin-bottom: 12px;
+  line-height: 1.6;
+}
+.cta-button {
+  display: inline-block;
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  color: white;
+  text-decoration: none;
+  padding: 12px 28px;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+/* ── Share btn ── */
+.share-btn {
+  width: 100%;
+  padding: 17px;
+  font-size: 18px;
+  font-weight: 700;
+  color: white;
+  background: #06C755;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: all 0.2s;
+  -webkit-tap-highlight-color: transparent;
+}
+.share-btn:active { transform: scale(0.97); }

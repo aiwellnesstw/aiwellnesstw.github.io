@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#667eea">
+  <meta property="og:title" content="今日運勢 | 仲安家健康能量">
+  <meta property="og:description" content="輸入你的名字和星座，看看今天的好運能量！">
+  <meta property="og:image" content="https://aiwellnesstw.github.io/avatar.png">
+  <meta property="og:url" content="https://aiwellnesstw.github.io/fortune/">
+  <title>今日運勢 | 仲安家</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+
+  <!-- ── 畫面一：輸入 ── -->
+  <div id="screen-input" class="screen active">
+    <div class="header">
+      <div class="header-brand">仲安家 × 今日運勢</div>
+      <div id="date-display" class="date-display"></div>
+      <div id="weather-display" class="weather-display hidden"></div>
+    </div>
+
+    <div id="referral-banner" class="referral-banner hidden"></div>
+
+    <div class="input-card">
+      <h1 class="input-title">✨ 查詢今日運勢</h1>
+
+      <label class="input-label" for="name-input">你的名字或暱稱</label>
+      <input type="text" id="name-input" class="name-input"
+             placeholder="例如：阿賢、媽咪、阿嬤" maxlength="10" autocomplete="off">
+
+      <div class="zodiac-section-label">選擇你的星座</div>
+      <div class="zodiac-grid" id="zodiac-grid"></div>
+
+      <button id="submit-btn" class="submit-btn" disabled>看我的運勢 →</button>
+    </div>
+
+    <div class="footer-links">
+      <a href="https://aiwellnesstw.github.io" target="_blank">🌿 仲安家官方頁面</a>
+      <a href="https://www.joinhome.tw/" target="_blank">🛒 好物購買</a>
+    </div>
+  </div>
+
+  <!-- ── 畫面二：結果 ── -->
+  <div id="screen-result" class="screen">
+    <div class="result-header">
+      <button id="back-btn" class="back-btn">← 重新查詢</button>
+      <div class="result-brand">仲安家 × 今日運勢</div>
+    </div>
+
+    <div class="result-card">
+      <div id="result-title" class="result-title"></div>
+      <div id="result-zodiac-badge" class="result-zodiac-badge"></div>
+
+      <div class="energy-section">
+        <div id="energy-number" class="energy-number">0</div>
+        <div class="energy-unit">分</div>
+        <div id="energy-label" class="energy-label"></div>
+      </div>
+
+      <div class="lucky-section">
+        <div class="lucky-item">
+          <div id="lucky-color-swatch" class="lucky-color-swatch"></div>
+          <div>
+            <div class="lucky-item-label">幸運色</div>
+            <div id="lucky-color-name" class="lucky-item-value"></div>
+          </div>
+        </div>
+        <div class="lucky-divider"></div>
+        <div class="lucky-item">
+          <div class="lucky-number-icon">🎯</div>
+          <div>
+            <div class="lucky-item-label">幸運數字</div>
+            <div id="lucky-number" class="lucky-item-value"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="fortune-text" class="fortune-text"></div>
+
+      <div class="cta-section">
+        <div id="cta-text" class="cta-text"></div>
+        <a href="https://www.joinhome.tw/" target="_blank" class="cta-button">了解仲安家好物 →</a>
+      </div>
+
+      <button id="share-btn" class="share-btn">📲 分享給家人</button>
+    </div>
+
+    <div class="footer-links">
+      <a href="https://aiwellnesstw.github.io" target="_blank">🌿 仲安家官方頁面</a>
+      <a href="https://www.joinhome.tw/" target="_blank">🛒 好物購買</a>
+    </div>
+  </div>
+
+</div>
+<script src="fortune-pool.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
