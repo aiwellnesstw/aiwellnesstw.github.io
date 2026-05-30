@@ -215,12 +215,10 @@ function generateFortuneCard() {
 
   const d = new Date();
   const dateStr = `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日`;
-  const W = 1080, H = 1080;
-  const PAD = 52, CX = W / 2;
+  const W = 1080, H = 1080, CX = W / 2, PAD = 52;
 
   const canvas = document.createElement('canvas');
-  canvas.width = W;
-  canvas.height = H;
+  canvas.width = W; canvas.height = H;
   const ctx = canvas.getContext('2d');
 
   // 背景漸層
@@ -235,91 +233,103 @@ function generateFortuneCard() {
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, W, H);
 
-  // 白色卡片
+  // 白卡
   drawRoundRect(ctx, PAD, PAD, W - PAD * 2, H - PAD * 2, 40);
   ctx.fillStyle = 'rgba(255,255,255,0.96)';
   ctx.fill();
 
-  const FONT = `-apple-system, BlinkMacSystemFont, 'PingFang TC', 'Noto Sans TC', sans-serif`;
+  const FONT = `'PingFang TC', 'Noto Sans TC', -apple-system, sans-serif`;
+  const divider = (y) => {
+    ctx.strokeStyle = '#eee'; ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(PAD + 60, y); ctx.lineTo(W - PAD - 60, y);
+    ctx.stroke();
+  };
 
   ctx.textAlign = 'center';
 
-  // 問候語（大）
-  ctx.font = `bold 90px ${FONT}`;
+  // ── 打招呼主標題（動態字級避免超寬）──
+  const greetLine = `${greeting.emoji} ${name} 跟你說${greeting.text}！`;
+  let fs = 78;
+  ctx.font = `bold ${fs}px ${FONT}`;
+  while (ctx.measureText(greetLine).width > W - PAD * 2 - 60 && fs > 50) {
+    fs -= 4;
+    ctx.font = `bold ${fs}px ${FONT}`;
+  }
   ctx.fillStyle = '#333';
-  ctx.fillText(`${greeting.emoji} ${greeting.text}！`, CX, 190);
+  ctx.fillText(greetLine, CX, 165);
 
   // 日期
-  ctx.font = `38px ${FONT}`;
-  ctx.fillStyle = '#999';
-  ctx.fillText(dateStr, CX, 248);
+  ctx.font = `34px ${FONT}`;
+  ctx.fillStyle = '#aaa';
+  ctx.fillText(dateStr, CX, 213);
 
-  // 分隔線
-  ctx.strokeStyle = '#eee';
-  ctx.lineWidth = 2;
-  ctx.beginPath();
-  ctx.moveTo(PAD + 40, 276); ctx.lineTo(W - PAD - 40, 276);
-  ctx.stroke();
+  divider(242);
 
-  // 星座 emoji + 名稱
-  ctx.font = `46px ${FONT}`;
-  ctx.fillStyle = '#999';
-  ctx.fillText(`${zodiac.emoji} ${zodiacName}`, CX, 338);
+  // ── 星座 + 今日運勢 ──
+  ctx.font = `44px ${FONT}`;
+  ctx.fillStyle = '#888';
+  ctx.fillText(`${zodiac.emoji} ${zodiacName} 今日運勢`, CX, 296);
 
-  // 用戶名稱 + 運勢
-  ctx.font = `bold 60px ${FONT}`;
-  ctx.fillStyle = '#333';
-  ctx.fillText(`${name} 的今日運勢`, CX, 413);
-
-  // 能量數字（漸層）
-  const numGrad = ctx.createLinearGradient(CX - 120, 430, CX + 120, 630);
+  // ── 能量數字（漸層大字）──
+  const numGrad = ctx.createLinearGradient(CX - 110, 310, CX + 110, 530);
   numGrad.addColorStop(0, '#667eea');
   numGrad.addColorStop(1, '#764ba2');
   ctx.fillStyle = numGrad;
-  ctx.font = `bold 210px ${FONT}`;
-  ctx.fillText(String(fortune.energy), CX, 615);
+  ctx.font = `bold 192px ${FONT}`;
+  ctx.fillText(String(fortune.energy), CX, 516);
 
-  ctx.font = `40px ${FONT}`;
-  ctx.fillStyle = '#bbb';
-  ctx.fillText('分', CX, 663);
+  ctx.font = `38px ${FONT}`;
+  ctx.fillStyle = '#ccc';
+  ctx.fillText('分', CX, 562);
 
   // 能量標籤
-  ctx.font = `bold 52px ${FONT}`;
+  ctx.font = `bold 54px ${FONT}`;
   ctx.fillStyle = '#5A4FCF';
-  ctx.fillText(`${info.emoji} ${info.label}`, CX, 730);
+  ctx.fillText(`${info.emoji} ${info.label}`, CX, 628);
 
-  // 幸運色 + 數字
-  const circleX = CX - 200, circleY = 793;
+  divider(660);
+
+  // ── 幸運色（獨立一行，左右對稱）──
+  const swatchX = CX - 140, swatchY = 712;
   ctx.beginPath();
-  ctx.arc(circleX, circleY, 26, 0, Math.PI * 2);
+  ctx.arc(swatchX, swatchY, 22, 0, Math.PI * 2);
   ctx.fillStyle = fortune.colorHex;
   ctx.fill();
-  ctx.strokeStyle = '#ddd'; ctx.lineWidth = 3; ctx.stroke();
+  ctx.strokeStyle = '#e0e0e0'; ctx.lineWidth = 2; ctx.stroke();
 
   ctx.font = `34px ${FONT}`;
   ctx.fillStyle = '#555';
   ctx.textAlign = 'left';
-  ctx.fillText(`幸運色：${fortune.luckyColor}`, circleX + 40, 805);
-  ctx.textAlign = 'right';
-  ctx.fillText(`🎯 幸運數字 ${fortune.luckyNum}`, CX + 200, 805);
+  ctx.fillText(`幸運色：${fortune.luckyColor}`, swatchX + 38, 724);
 
-  // 分隔線
-  ctx.strokeStyle = '#eee'; ctx.lineWidth = 2;
-  ctx.beginPath();
-  ctx.moveTo(PAD + 40, 830); ctx.lineTo(W - PAD - 40, 830);
-  ctx.stroke();
-
-  // 運勢文字
+  // ── 幸運數字（獨立一行）──
   ctx.textAlign = 'center';
-  ctx.font = `33px ${FONT}`;
-  ctx.fillStyle = '#555';
-  const text = fortune.text.replace(/\{name\}/g, name);
-  wrapCanvasText(ctx, text, CX, 880, W - PAD * 2 - 80, 47);
+  ctx.fillText(`🎯 今日幸運數字：${fortune.luckyNum}`, CX, 774);
 
-  // 底部浮水印
-  ctx.font = `26px ${FONT}`;
+  divider(806);
+
+  // ── 運勢文字（去掉開頭名字，改為第三人稱祝福感）──
+  ctx.font = `32px ${FONT}`;
+  ctx.fillStyle = '#666';
+  const cardText = fortune.text.replace(/\{name\}，/g, '').replace(/\{name\}/g, '');
+  wrapCanvasText(ctx, cardText, CX, 854, W - PAD * 2 - 80, 46);
+
+  // ── 底部祝福語（依能量段落）──
+  const blessings = {
+    high: `「${name}」今天運勢爆表，多聊天可以共享好運`,
+    mid:  `「${name}」愜意的一天，有事沒事多聊天`,
+    low:  `「${name}」需要你的好運補給，快來聊天吧`,
+  };
+  const bKey = fortune.energy >= 80 ? 'high' : fortune.energy >= 50 ? 'mid' : 'low';
+  ctx.font = `30px ${FONT}`;
+  ctx.fillStyle = '#888';
+  ctx.fillText(blessings[bKey], CX, 970);
+
+  // ── 浮水印 ──
+  ctx.font = `24px ${FONT}`;
   ctx.fillStyle = '#ccc';
-  ctx.fillText('給自己好氣色 · aiwellnesstw.github.io/fortune', CX, 1018);
+  ctx.fillText('aiwellnesstw.github.io/fortune', CX, 1010);
 
   return canvas;
 }
