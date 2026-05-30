@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>產生 OG 預覽圖</title>
+  <style>
+    body { background: #222; display: flex; flex-direction: column; align-items: center; padding: 20px; font-family: sans-serif; color: white; }
+    canvas { border-radius: 12px; max-width: 100%; margin: 20px 0; }
+    button { padding: 14px 32px; font-size: 18px; background: #667eea; color: white; border: none; border-radius: 10px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h2>OG 預覽圖產生器（一次性使用）</h2>
+  <p>點下載後，把 og.png 上傳到 fortune/ 資料夾，再 commit push 即可。</p>
+  <canvas id="c" width="1200" height="628"></canvas>
+  <button onclick="download()">下載 og.png</button>
+
+  <script>
+    const canvas = document.getElementById('c');
+    const ctx = canvas.getContext('2d');
+    const W = 1200, H = 628, CX = W / 2;
+    const FONT = `'PingFang TC', 'Noto Sans TC', sans-serif`;
+
+    // 背景
+    const grad = ctx.createLinearGradient(0, 0, W, H);
+    grad.addColorStop(0, '#667eea');
+    grad.addColorStop(1, '#764ba2');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, W, H);
+
+    // 白卡
+    ctx.beginPath();
+    const r = 32, x = 60, y = 44, w = W - 120, h = H - 88;
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y); ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r); ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h); ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r); ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(255,255,255,0.95)';
+    ctx.fill();
+
+    // 裝飾 emoji
+    ctx.font = `100px sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.fillText('✨', CX, 185);
+
+    // 標題
+    ctx.font = `bold 88px ${FONT}`;
+    ctx.fillStyle = '#333';
+    ctx.fillText('今日星座運勢', CX, 295);
+
+    // 副標
+    ctx.font = `42px ${FONT}`;
+    ctx.fillStyle = '#888';
+    ctx.fillText('輸入你的名字和星座，看看今天的好運能量！', CX, 370);
+
+    // 星座列
+    ctx.font = `54px sans-serif`;
+    ctx.fillStyle = '#555';
+    ctx.fillText('♈ ♉ ♊ ♋ ♌ ♍ ♎ ♏ ♐ ♑ ♒ ♓', CX, 455);
+
+    // 網址
+    ctx.font = `28px monospace`;
+    ctx.fillStyle = '#bbb';
+    ctx.fillText('aiwellnesstw.github.io/fortune', CX, 536);
+
+    function download() {
+      const a = document.createElement('a');
+      a.download = 'og.png';
+      a.href = canvas.toDataURL('image/png');
+      a.click();
+    }
+
+    download(); // 開啟頁面自動下載
+  </script>
+</body>
+</html>

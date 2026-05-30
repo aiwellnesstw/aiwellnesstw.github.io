@@ -86,6 +86,7 @@
         <a href="https://aiwellnesstw.github.io/" target="_blank" class="cta-button">了解仲安家好物 →</a>
       </div>
 
+      <button id="save-btn" class="save-btn">🖼 儲存早安圖</button>
       <button id="share-btn" class="share-btn">📲 分享給家人</button>
     </div>
 
@@ -97,6 +98,16 @@
   </div>
 
 </div>
+<!-- 圖卡預覽 overlay（iOS 長按儲存用） -->
+<div id="img-overlay" class="img-overlay hidden">
+  <div class="img-overlay-bg"></div>
+  <div class="img-overlay-inner">
+    <p class="img-hint">📱 長按圖片儲存到相簿</p>
+    <img id="preview-img" src="" alt="今日運勢圖卡" class="preview-img">
+    <button id="close-overlay" class="close-overlay-btn">✕ 關閉</button>
+  </div>
+</div>
+
 <script src="fortune-pool.js"></script>
 <script src="app.js"></script>
 </body>

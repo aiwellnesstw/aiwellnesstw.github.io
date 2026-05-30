@@ -173,6 +173,175 @@ function checkReferral() {
   banner.classList.remove('hidden');
 }
 
+// ── Canvas 早安圖 ────────────────────────────────────────────
+function drawRoundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+}
+
+function wrapCanvasText(ctx, text, cx, startY, maxWidth, lineH) {
+  let line = '';
+  let y = startY;
+  for (const char of text) {
+    const test = line + char;
+    if (ctx.measureText(test).width > maxWidth && line) {
+      ctx.fillText(line, cx, y);
+      line = char;
+      y += lineH;
+    } else {
+      line = test;
+    }
+  }
+  if (line) ctx.fillText(line, cx, y);
+}
+
+function generateFortuneCard() {
+  const btn = document.getElementById('share-btn');
+  const name = btn.dataset.name;
+  const zodiacName = btn.dataset.zodiac;
+  const zodiac = ZODIACS[selectedZodiac];
+  const fortune = currentFortune;
+  const info = getEnergyInfo(fortune.energy);
+  const greeting = getGreeting();
+
+  const d = new Date();
+  const dateStr = `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日`;
+  const W = 1080, H = 1080;
+  const PAD = 52, CX = W / 2;
+
+  const canvas = document.createElement('canvas');
+  canvas.width = W;
+  canvas.height = H;
+  const ctx = canvas.getContext('2d');
+
+  // 背景漸層
+  const grad = ctx.createLinearGradient(0, 0, W, H);
+  if (fortune.energy >= 80) {
+    grad.addColorStop(0, '#f7971e'); grad.addColorStop(1, '#ffd200');
+  } else if (fortune.energy >= 50) {
+    grad.addColorStop(0, '#667eea'); grad.addColorStop(1, '#764ba2');
+  } else {
+    grad.addColorStop(0, '#485563'); grad.addColorStop(1, '#29323c');
+  }
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, W, H);
+
+  // 白色卡片
+  drawRoundRect(ctx, PAD, PAD, W - PAD * 2, H - PAD * 2, 40);
+  ctx.fillStyle = 'rgba(255,255,255,0.96)';
+  ctx.fill();
+
+  const FONT = `-apple-system, BlinkMacSystemFont, 'PingFang TC', 'Noto Sans TC', sans-serif`;
+
+  ctx.textAlign = 'center';
+
+  // 問候語（大）
+  ctx.font = `bold 90px ${FONT}`;
+  ctx.fillStyle = '#333';
+  ctx.fillText(`${greeting.emoji} ${greeting.text}！`, CX, 190);
+
+  // 日期
+  ctx.font = `38px ${FONT}`;
+  ctx.fillStyle = '#999';
+  ctx.fillText(dateStr, CX, 248);
+
+  // 分隔線
+  ctx.strokeStyle = '#eee';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(PAD + 40, 276); ctx.lineTo(W - PAD - 40, 276);
+  ctx.stroke();
+
+  // 星座 emoji + 名稱
+  ctx.font = `46px ${FONT}`;
+  ctx.fillStyle = '#999';
+  ctx.fillText(`${zodiac.emoji} ${zodiacName}`, CX, 338);
+
+  // 用戶名稱 + 運勢
+  ctx.font = `bold 60px ${FONT}`;
+  ctx.fillStyle = '#333';
+  ctx.fillText(`${name} 的今日運勢`, CX, 413);
+
+  // 能量數字（漸層）
+  const numGrad = ctx.createLinearGradient(CX - 120, 430, CX + 120, 630);
+  numGrad.addColorStop(0, '#667eea');
+  numGrad.addColorStop(1, '#764ba2');
+  ctx.fillStyle = numGrad;
+  ctx.font = `bold 210px ${FONT}`;
+  ctx.fillText(String(fortune.energy), CX, 615);
+
+  ctx.font = `40px ${FONT}`;
+  ctx.fillStyle = '#bbb';
+  ctx.fillText('分', CX, 663);
+
+  // 能量標籤
+  ctx.font = `bold 52px ${FONT}`;
+  ctx.fillStyle = '#5A4FCF';
+  ctx.fillText(`${info.emoji} ${info.label}`, CX, 730);
+
+  // 幸運色 + 數字
+  const circleX = CX - 200, circleY = 793;
+  ctx.beginPath();
+  ctx.arc(circleX, circleY, 26, 0, Math.PI * 2);
+  ctx.fillStyle = fortune.colorHex;
+  ctx.fill();
+  ctx.strokeStyle = '#ddd'; ctx.lineWidth = 3; ctx.stroke();
+
+  ctx.font = `34px ${FONT}`;
+  ctx.fillStyle = '#555';
+  ctx.textAlign = 'left';
+  ctx.fillText(`幸運色：${fortune.luckyColor}`, circleX + 40, 805);
+  ctx.textAlign = 'right';
+  ctx.fillText(`🎯 幸運數字 ${fortune.luckyNum}`, CX + 200, 805);
+
+  // 分隔線
+  ctx.strokeStyle = '#eee'; ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(PAD + 40, 830); ctx.lineTo(W - PAD - 40, 830);
+  ctx.stroke();
+
+  // 運勢文字
+  ctx.textAlign = 'center';
+  ctx.font = `33px ${FONT}`;
+  ctx.fillStyle = '#555';
+  const text = fortune.text.replace(/\{name\}/g, name);
+  wrapCanvasText(ctx, text, CX, 880, W - PAD * 2 - 80, 47);
+
+  // 底部浮水印
+  ctx.font = `26px ${FONT}`;
+  ctx.fillStyle = '#ccc';
+  ctx.fillText('給自己好氣色 · aiwellnesstw.github.io/fortune', CX, 1018);
+
+  return canvas;
+}
+
+function saveFortuneCard() {
+  const canvas = generateFortuneCard();
+  const dataUrl = canvas.toDataURL('image/png');
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+
+  if (isIOS) {
+    // iOS 無法直接下載，顯示 overlay 讓用戶長按儲存
+    document.getElementById('preview-img').src = dataUrl;
+    document.getElementById('img-overlay').classList.remove('hidden');
+  } else {
+    const btn = document.getElementById('share-btn');
+    const link = document.createElement('a');
+    link.download = `今日運勢_${btn.dataset.name}.png`;
+    link.href = dataUrl;
+    link.click();
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('date-display').textContent = formatDate();
   initZodiacGrid();
@@ -188,4 +357,8 @@ document.addEventListener('DOMContentLoaded', () => {
     window.scrollTo(0, 0);
   });
   document.getElementById('share-btn').addEventListener('click', shareToLine);
+  document.getElementById('save-btn').addEventListener('click', saveFortuneCard);
+  document.getElementById('close-overlay').addEventListener('click', () => {
+    document.getElementById('img-overlay').classList.add('hidden');
+  });
 });
