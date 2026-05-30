@@ -295,24 +295,28 @@ function generateFortuneCard() {
 
   ctx.textAlign = 'center';
 
-  // ── 打招呼主標題 ──
-  const greetLine = `${greeting.emoji} ${name} 跟你說${greeting.text}！`;
+  // ── 打招呼主標題（emoji 獨立一行，避免 iOS 量測偏差導致溢出）──
+  ctx.font = `58px ${FONT}`;
+  ctx.fillStyle = '#333';
+  ctx.fillText(greeting.emoji, CX, 116);
+
+  const titleText = `${name} 跟你說${greeting.text}！`;
   const titleMaxW = W - PAD * 2 - 60;
-  let fs = 78;
+  let fs = 72;
   ctx.font = `bold ${fs}px ${FONT}`;
-  while (ctx.measureText(greetLine).width + 120 > titleMaxW && fs > 36) {
+  while (ctx.measureText(titleText).width > titleMaxW && fs > 32) {
     fs -= 2;
     ctx.font = `bold ${fs}px ${FONT}`;
   }
   ctx.fillStyle = '#333';
-  ctx.fillText(greetLine, CX, 165, titleMaxW);
+  ctx.fillText(titleText, CX, 194, titleMaxW);
 
   // 日期
-  ctx.font = `34px ${FONT}`;
+  ctx.font = `32px ${FONT}`;
   ctx.fillStyle = '#aaa';
-  ctx.fillText(dateStr, CX, 215);
+  ctx.fillText(dateStr, CX, 240);
 
-  divider(250);
+  divider(270);
 
   // ── 祝福語（英雄區塊，取代運勢分數）──
   ctx.font = `92px ${FONT}`;
