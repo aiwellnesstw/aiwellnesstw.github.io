@@ -234,8 +234,31 @@ function generateFortuneCard() {
   const zodiacName = btn.dataset.zodiac;
   const zodiac = ZODIACS[selectedZodiac];
   const fortune = currentFortune;
-  const info = getEnergyInfo(fortune.energy);
   const greeting = getGreeting();
+
+  const BLESSINGS = [
+    { text: '平安健康', emoji: '🌿' },
+    { text: '開懷喜樂', emoji: '🌈' },
+    { text: '萬事如意', emoji: '🌟' },
+    { text: '福氣滿滿', emoji: '🍀' },
+    { text: '心想事成', emoji: '✨' },
+    { text: '笑口常開', emoji: '😄' },
+    { text: '好事連連', emoji: '🎉' },
+    { text: '幸福美滿', emoji: '💖' },
+    { text: '順心如意', emoji: '🌸' },
+    { text: '身體健康', emoji: '💪' },
+    { text: '喜氣洋洋', emoji: '🎊' },
+    { text: '吉祥如意', emoji: '🌺' },
+    { text: '財源廣進', emoji: '💰' },
+    { text: '平安喜樂', emoji: '☘️' },
+    { text: '歡樂滿懷', emoji: '🎵' },
+    { text: '百事亨通', emoji: '🚀' },
+    { text: '日日精進', emoji: '📈' },
+    { text: '諸事順遂', emoji: '🍃' },
+    { text: '快樂無憂', emoji: '🌻' },
+    { text: '事事如意', emoji: '⭐' },
+  ];
+  const blessing = BLESSINGS[Math.floor(Math.random() * BLESSINGS.length)];
 
   const d = new Date();
   const dateStr = `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日`;
@@ -272,52 +295,49 @@ function generateFortuneCard() {
 
   ctx.textAlign = 'center';
 
-  // ── 打招呼主標題（動態字級避免超寬）──
+  // ── 打招呼主標題 ──
   const greetLine = `${greeting.emoji} ${name} 跟你說${greeting.text}！`;
+  const titleMaxW = W - PAD * 2 - 60;
   let fs = 78;
   ctx.font = `bold ${fs}px ${FONT}`;
-  while (ctx.measureText(greetLine).width > W - PAD * 2 - 60 && fs > 50) {
-    fs -= 4;
+  while (ctx.measureText(greetLine).width + 120 > titleMaxW && fs > 36) {
+    fs -= 2;
     ctx.font = `bold ${fs}px ${FONT}`;
   }
   ctx.fillStyle = '#333';
-  ctx.fillText(greetLine, CX, 165);
+  ctx.fillText(greetLine, CX, 165, titleMaxW);
 
   // 日期
   ctx.font = `34px ${FONT}`;
   ctx.fillStyle = '#aaa';
-  ctx.fillText(dateStr, CX, 213);
+  ctx.fillText(dateStr, CX, 215);
 
-  divider(242);
+  divider(250);
 
-  // ── 星座 + 今日運勢 ──
+  // ── 祝福語（英雄區塊，取代運勢分數）──
+  ctx.font = `92px ${FONT}`;
+  ctx.fillText(blessing.emoji, CX, 375);
+
+  const blessGrad = ctx.createLinearGradient(CX - 240, 390, CX + 240, 520);
+  blessGrad.addColorStop(0, '#667eea');
+  blessGrad.addColorStop(1, '#764ba2');
+  ctx.fillStyle = blessGrad;
+  ctx.font = `bold 104px ${FONT}`;
+  ctx.fillText(blessing.text, CX, 516);
+
+  divider(565);
+
+  // ── 星座徽章 ──
   ctx.font = `44px ${FONT}`;
   ctx.fillStyle = '#888';
-  ctx.fillText(`${zodiac.emoji} ${zodiacName} 今日運勢`, CX, 296);
+  ctx.fillText(`${zodiac.emoji} ${zodiacName}`, CX, 632);
 
-  // ── 能量數字（漸層大字）──
-  const numGrad = ctx.createLinearGradient(CX - 110, 310, CX + 110, 530);
-  numGrad.addColorStop(0, '#667eea');
-  numGrad.addColorStop(1, '#764ba2');
-  ctx.fillStyle = numGrad;
-  ctx.font = `bold 192px ${FONT}`;
-  ctx.fillText(String(fortune.energy), CX, 516);
+  divider(672);
 
-  ctx.font = `38px ${FONT}`;
-  ctx.fillStyle = '#ccc';
-  ctx.fillText('分', CX, 562);
-
-  // 能量標籤
-  ctx.font = `bold 54px ${FONT}`;
-  ctx.fillStyle = '#5A4FCF';
-  ctx.fillText(`${info.emoji} ${info.label}`, CX, 628);
-
-  divider(660);
-
-  // ── 幸運色（獨立一行，左右對稱）──
-  const swatchX = CX - 140, swatchY = 712;
+  // ── 幸運色 ──
+  const swatchX = CX - 148;
   ctx.beginPath();
-  ctx.arc(swatchX, swatchY, 22, 0, Math.PI * 2);
+  ctx.arc(swatchX, 732, 21, 0, Math.PI * 2);
   ctx.fillStyle = fortune.colorHex;
   ctx.fill();
   ctx.strokeStyle = '#e0e0e0'; ctx.lineWidth = 2; ctx.stroke();
@@ -325,35 +345,29 @@ function generateFortuneCard() {
   ctx.font = `34px ${FONT}`;
   ctx.fillStyle = '#555';
   ctx.textAlign = 'left';
-  ctx.fillText(`幸運色：${fortune.luckyColor}`, swatchX + 38, 724);
+  ctx.fillText(`幸運色：${fortune.luckyColor}`, swatchX + 36, 744);
 
-  // ── 幸運數字（獨立一行）──
+  // ── 幸運數字 ──
   ctx.textAlign = 'center';
-  ctx.fillText(`🎯 今日幸運數字：${fortune.luckyNum}`, CX, 774);
+  ctx.fillText(`🎯 今日幸運數字：${fortune.luckyNum}`, CX, 800);
 
-  divider(806);
+  divider(836);
 
-  // ── 運勢文字（去掉開頭名字，改為第三人稱祝福感）──
-  ctx.font = `32px ${FONT}`;
-  ctx.fillStyle = '#666';
-  const cardText = fortune.text.replace(/\{name\}，/g, '').replace(/\{name\}/g, '');
-  wrapCanvasText(ctx, cardText, CX, 854, W - PAD * 2 - 80, 46);
-
-  // ── 底部祝福語（依能量段落）──
-  const blessings = {
+  // ── 個性祝福語（從底部上移，取代運勢說明）──
+  const bKey = fortune.energy >= 80 ? 'high' : fortune.energy >= 50 ? 'mid' : 'low';
+  const personalities = {
     high: `「${name}」今天運勢爆表，多聊天可以共享好運`,
     mid:  `「${name}」今天很愜意，想要和你多聊天`,
     low:  `「${name}」需要你的好運補給，快來聊天吧`,
   };
-  const bKey = fortune.energy >= 80 ? 'high' : fortune.energy >= 50 ? 'mid' : 'low';
   ctx.font = `30px ${FONT}`;
   ctx.fillStyle = '#888';
-  ctx.fillText(blessings[bKey], CX, 970);
+  ctx.fillText(personalities[bKey], CX, 912);
 
   // ── 浮水印 ──
   ctx.font = `24px ${FONT}`;
   ctx.fillStyle = '#ccc';
-  ctx.fillText('aiwellnesstw.github.io/fortune', CX, 1010);
+  ctx.fillText('aiwellnesstw.github.io/fortune', CX, 966);
 
   return canvas;
 }
