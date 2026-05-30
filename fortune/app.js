@@ -342,7 +342,7 @@ function generateFortuneCard() {
   // ── 底部祝福語（依能量段落）──
   const blessings = {
     high: `「${name}」今天運勢爆表，多聊天可以共享好運`,
-    mid:  `「${name}」愜意的一天，有事沒事多聊天`,
+    mid:  `「${name}」今天很愜意，想要和你多聊天`,
     low:  `「${name}」需要你的好運補給，快來聊天吧`,
   };
   const bKey = fortune.energy >= 80 ? 'high' : fortune.energy >= 50 ? 'mid' : 'low';
