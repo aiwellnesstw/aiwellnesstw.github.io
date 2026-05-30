@@ -30,8 +30,8 @@ function getFortune(zodiacIdx) {
 
 function getEnergyInfo(energy) {
   if (energy >= 80) return { label: '氣勢如虹', emoji: '🔥', ctaText: '今天能量滿滿！用一瓶滴雞精開啟活力的一天 ☕' };
-  if (energy >= 50) return { label: '穩健前行', emoji: '✨', ctaText: '今天能量普通，給自己補充一下元氣吧 🌿' };
-  return { label: '需要補氣', emoji: '💤', ctaText: '今天能量偏低，仲安家幫你找回精神 💪' };
+  if (energy >= 50) return { label: '充滿元氣', emoji: '✨', ctaText: '今天能量普通，給自己補充一下元氣吧 🌿' };
+  return { label: '有點慵懶', emoji: '💤', ctaText: '今天能量偏低，讓仲安家幫你找回精神 💪' };
 }
 
 function getGreeting() {
