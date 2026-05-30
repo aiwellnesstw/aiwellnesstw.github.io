@@ -156,11 +156,35 @@ function shareToLine() {
   const btn = document.getElementById('share-btn');
   const name = btn.dataset.name;
   const zodiacName = btn.dataset.zodiac;
+  const zodiac = ZODIACS[selectedZodiac];
   const info = getEnergyInfo(currentFortune.energy);
   const greeting = getGreeting();
 
+  const d = new Date();
+  const dateStr = `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日`;
+
+  const blessings = {
+    high: `「${name}」今天運勢爆表，多聊天可以共享好運 🔥`,
+    mid:  `「${name}」愜意的一天，有事沒事多聊天 ✨`,
+    low:  `「${name}」需要你的好運補給，快來聊天吧 💤`,
+  };
+  const bKey = currentFortune.energy >= 80 ? 'high' : currentFortune.energy >= 50 ? 'mid' : 'low';
+
   const refUrl = `https://aiwellnesstw.github.io/fortune/?ref=${encodeURIComponent(name)}`;
-  const msg = `${name} ${info.label}地跟你說「${greeting.text}」${greeting.emoji}\n今日${zodiacName}能量 ${currentFortune.energy} 分 🔥\n你的運勢如何？👉 ${refUrl}`;
+
+  const msg = [
+    `${greeting.emoji} ${name} 跟你說${greeting.text}！`,
+    `📅 ${dateStr}`,
+    ``,
+    `${zodiac.emoji} ${zodiacName} 今日運勢`,
+    `${info.emoji} ${info.label}｜${currentFortune.energy} 分`,
+    ``,
+    `🎨 幸運色：${currentFortune.luckyColor}　🎯 幸運數字：${currentFortune.luckyNum}`,
+    ``,
+    blessings[bKey],
+    ``,
+    `你的運勢如何？👉 ${refUrl}`,
+  ].join('\n');
 
   window.open(`https://line.me/R/share?text=${encodeURIComponent(msg)}`, '_blank');
 }
