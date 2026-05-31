@@ -172,6 +172,7 @@ function shareToLine() {
 
   const refUrl = `https://aiwellnesstw.github.io/fortune/?ref=${encodeURIComponent(name)}`;
 
+  const memo = document.getElementById('memo-input').value.trim();
   const msg = [
     `${greeting.emoji} ${name} 跟你說${greeting.text}！`,
     `📅 ${dateStr}`,
@@ -182,6 +183,7 @@ function shareToLine() {
     `🎨 幸運色：${currentFortune.luckyColor}　🎯 幸運數字：${currentFortune.luckyNum}`,
     ``,
     blessings[bKey],
+    ...(memo ? [``, `📝 ${memo}`] : []),
     ``,
     `你的運勢如何？👉 ${refUrl}`,
   ].join('\n');
@@ -357,21 +359,31 @@ function generateFortuneCard() {
 
   divider(836);
 
-  // ── 個性祝福語（從底部上移，取代運勢說明）──
+  // ── 個性祝福語 ──
   const bKey = fortune.energy >= 80 ? 'high' : fortune.energy >= 50 ? 'mid' : 'low';
   const personalities = {
     high: `「${name}」今天運勢爆表，多聊天可以共享好運`,
     mid:  `「${name}」今天很愜意，想要和你多聊天`,
     low:  `「${name}」需要你的好運補給，快來聊天吧`,
   };
+  const memo = document.getElementById('memo-input').value.trim();
+  const personalityY = memo ? 888 : 912;
+  const watermarkY  = memo ? 988 : 966;
+
   ctx.font = `30px ${FONT}`;
   ctx.fillStyle = '#888';
-  ctx.fillText(personalities[bKey], CX, 912);
+  ctx.fillText(personalities[bKey], CX, personalityY);
+
+  if (memo) {
+    ctx.font = `italic 26px ${FONT}`;
+    ctx.fillStyle = '#bbb';
+    ctx.fillText(`備忘：${memo}`, CX, 940, W - PAD * 2 - 80);
+  }
 
   // ── 浮水印 ──
   ctx.font = `24px ${FONT}`;
   ctx.fillStyle = '#ccc';
-  ctx.fillText('aiwellnesstw.github.io/fortune', CX, 966);
+  ctx.fillText('aiwellnesstw.github.io/fortune', CX, watermarkY);
 
   return canvas;
 }
@@ -405,6 +417,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('back-btn').addEventListener('click', () => {
     document.getElementById('screen-result').classList.remove('active');
     document.getElementById('screen-input').classList.add('active');
+    document.getElementById('memo-input').value = '';
     document.body.style.background = '';
     window.scrollTo(0, 0);
   });

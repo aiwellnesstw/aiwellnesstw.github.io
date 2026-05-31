@@ -275,6 +275,22 @@ body {
   letter-spacing: 0.5px;
 }
 
+/* ── Memo ── */
+.memo-wrap { margin: 0 0 14px; }
+.memo-input {
+  width: 100%;
+  padding: 13px 16px;
+  font-size: 16px;
+  border: 2px dashed #d5d5d5;
+  border-radius: 12px;
+  outline: none;
+  background: #fffef5;
+  color: #555;
+  font-family: inherit;
+  transition: border-color 0.2s, border-style 0.2s;
+}
+.memo-input:focus { border-color: #667eea; border-style: solid; }
+
 /* ── Save btn ── */
 .save-btn {
   width: 100%;
