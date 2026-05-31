@@ -331,35 +331,9 @@ function generateFortuneCard() {
   ctx.font = `bold 104px ${FONT}`;
   ctx.fillText(blessing.text, CX, 516);
 
-  divider(565);
+  divider(556);
 
-  // ── 星座徽章 ──
-  ctx.font = `44px ${FONT}`;
-  ctx.fillStyle = '#888';
-  ctx.fillText(`${zodiac.emoji} ${zodiacName}`, CX, 632);
-
-  divider(672);
-
-  // ── 幸運色 ──
-  const swatchX = CX - 148;
-  ctx.beginPath();
-  ctx.arc(swatchX, 732, 21, 0, Math.PI * 2);
-  ctx.fillStyle = fortune.colorHex;
-  ctx.fill();
-  ctx.strokeStyle = '#e0e0e0'; ctx.lineWidth = 2; ctx.stroke();
-
-  ctx.font = `34px ${FONT}`;
-  ctx.fillStyle = '#555';
-  ctx.textAlign = 'left';
-  ctx.fillText(`幸運色：${fortune.luckyColor}`, swatchX + 36, 744);
-
-  // ── 幸運數字 ──
-  ctx.textAlign = 'center';
-  ctx.fillText(`🎯 今日幸運數字：${fortune.luckyNum}`, CX, 800);
-
-  divider(836);
-
-  // ── 個性祝福語 ──
+  // ── 個性祝福語（祝福語正下方，字體略大）──
   const bKey = fortune.energy >= 80 ? 'high' : fortune.energy >= 50 ? 'mid' : 'low';
   const personalities = {
     high: `「${name}」今天運勢爆表，多聊天可以共享好運`,
@@ -367,23 +341,48 @@ function generateFortuneCard() {
     low:  `「${name}」需要你的好運補給，快來聊天吧`,
   };
   const memo = document.getElementById('memo-input').value.trim();
-  const personalityY = memo ? 888 : 912;
-  const watermarkY  = memo ? 988 : 966;
 
-  ctx.font = `30px ${FONT}`;
-  ctx.fillStyle = '#888';
-  ctx.fillText(personalities[bKey], CX, personalityY);
+  ctx.font = `34px ${FONT}`;
+  ctx.fillStyle = '#666';
+  ctx.fillText(personalities[bKey], CX, 614);
 
   if (memo) {
-    ctx.font = `italic 26px ${FONT}`;
-    ctx.fillStyle = '#bbb';
-    ctx.fillText(`備忘：${memo}`, CX, 940, W - PAD * 2 - 80);
+    ctx.font = `italic 30px ${FONT}`;
+    ctx.fillStyle = '#aaa';
+    ctx.fillText(`備忘：${memo}`, CX, 660, W - PAD * 2 - 80);
   }
+
+  // ── 星座徽章（往下移）──
+  divider(memo ? 702 : 664);
+
+  ctx.font = `44px ${FONT}`;
+  ctx.fillStyle = '#888';
+  ctx.fillText(`${zodiac.emoji} ${zodiacName}`, CX, memo ? 756 : 718);
+
+  // ── 幸運色 ──
+  divider(memo ? 796 : 758);
+
+  const swatchX = CX - 148;
+  const swatchCY = memo ? 850 : 812;
+  ctx.beginPath();
+  ctx.arc(swatchX, swatchCY, 21, 0, Math.PI * 2);
+  ctx.fillStyle = fortune.colorHex;
+  ctx.fill();
+  ctx.strokeStyle = '#e0e0e0'; ctx.lineWidth = 2; ctx.stroke();
+
+  ctx.font = `34px ${FONT}`;
+  ctx.fillStyle = '#555';
+  ctx.textAlign = 'left';
+  ctx.fillText(`幸運色：${fortune.luckyColor}`, swatchX + 36, memo ? 862 : 824);
+
+  // ── 幸運數字 ──
+  ctx.textAlign = 'center';
+  ctx.fillText(`🎯 今日幸運數字：${fortune.luckyNum}`, CX, memo ? 918 : 880);
 
   // ── 浮水印 ──
   ctx.font = `24px ${FONT}`;
   ctx.fillStyle = '#ccc';
-  ctx.fillText('aiwellnesstw.github.io/fortune', CX, watermarkY);
+  ctx.fillText('aiwellnesstw.github.io/fortune', CX, memo ? 970 : 940);
 
   return canvas;
 }
