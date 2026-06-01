@@ -253,26 +253,65 @@ body {
 .cta-section {
   background: linear-gradient(135deg, #fff5f5, #ffe8e8);
   border-radius: 14px;
-  padding: 18px 16px;
+  padding: 18px 0 14px;
   margin-bottom: 16px;
   text-align: center;
 }
 .cta-text {
   font-size: 16px;
   color: #c0392b;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
   line-height: 1.6;
+  padding: 0 16px;
 }
-.cta-button {
-  display: inline-block;
-  background: linear-gradient(135deg, #e74c3c, #c0392b);
-  color: white;
+
+/* ── Product carousel ── */
+.product-carousel-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  padding: 4px 16px;
+}
+.product-carousel-wrap::-webkit-scrollbar { display: none; }
+.product-carousel {
+  display: flex;
+  gap: 10px;
+  padding-right: 16px;
+}
+.product-card {
+  flex: 0 0 130px;
+  scroll-snap-align: start;
+  border-radius: 12px;
+  overflow: hidden;
   text-decoration: none;
-  padding: 12px 28px;
-  border-radius: 25px;
-  font-size: 16px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
+  background: white;
+  border: 1.5px solid #f5dada;
+  display: block;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.15s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+}
+.product-card:active { transform: scale(0.95); }
+.product-card-img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  display: block;
+}
+.product-card-name {
+  padding: 7px 6px 9px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #c0392b;
+  text-align: center;
+  line-height: 1.4;
+}
+.carousel-hint {
+  font-size: 11px;
+  color: #d4a0a0;
+  margin-top: 10px;
+  letter-spacing: 1px;
 }
 
 /* ── Memo ── */
