@@ -271,16 +271,19 @@ body {
   -webkit-overflow-scrolling: touch;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
-  padding: 4px 16px;
+  padding: 4px 16px 8px;
+  width: 100%;
 }
 .product-carousel-wrap::-webkit-scrollbar { display: none; }
 .product-carousel {
   display: flex;
+  flex-wrap: nowrap;
   gap: 10px;
-  padding-right: 16px;
+  width: max-content;
 }
 .product-card {
-  flex: 0 0 130px;
+  flex: 0 0 120px;
+  width: 120px;
   scroll-snap-align: start;
   border-radius: 12px;
   overflow: hidden;
@@ -294,10 +297,11 @@ body {
 }
 .product-card:active { transform: scale(0.95); }
 .product-card-img {
-  width: 100%;
-  aspect-ratio: 1;
-  object-fit: cover;
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
   display: block;
+  background: white;
 }
 .product-card-name {
   padding: 7px 6px 9px;
