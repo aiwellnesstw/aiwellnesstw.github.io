@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>瑞思 × AI 導入提案</title>
+<script>
+(function(){
+  const pwd = '61845706';
+  const key = 'ruise_unlocked';
+  if (sessionStorage.getItem(key) !== '1') {
+    document.addEventListener('DOMContentLoaded', function(){
+      const overlay = document.getElementById('pwd-overlay');
+      overlay.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    });
+  }
+  window.checkPwd = function(){
+    const input = document.getElementById('pwd-input').value;
+    if (input === pwd) {
+      sessionStorage.setItem(key, '1');
+      document.getElementById('pwd-overlay').style.display = 'none';
+      document.body.style.overflow = '';
+    } else {
+      const err = document.getElementById('pwd-error');
+      err.style.opacity = '1';
+      document.getElementById('pwd-input').value = '';
+      document.getElementById('pwd-input').focus();
+      setTimeout(() => err.style.opacity = '0', 2000);
+    }
+  };
+  window.addEventListener('keydown', function(e){
+    if (e.key === 'Enter') {
+      const overlay = document.getElementById('pwd-overlay');
+      if (overlay && overlay.style.display !== 'none') checkPwd();
+    }
+  });
+})();
+</script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Microsoft JhengHei', 'PingFang TC', sans-serif;
+    background: #0d1117;
+    color: #e6edf3;
+    min-height: 100vh;
+  }
+
+  /* Hero */
+  .hero {
+    background: linear-gradient(135deg, #0d1117 0%, #161b22 50%, #0d1117 100%);
+    border-bottom: 1px solid #21262d;
+    padding: 60px 40px 50px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -100px; left: 50%;
+    transform: translateX(-50%);
+    width: 600px; height: 300px;
+    background: radial-gradient(ellipse, rgba(88,166,255,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .badge {
+    display: inline-block;
+    background: rgba(88,166,255,0.12);
+    border: 1px solid rgba(88,166,255,0.3);
+    color: #58a6ff;
+    font-size: 13px;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+  }
+  .hero h1 {
+    font-size: 38px;
+    font-weight: 700;
+    color: #f0f6fc;
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+  .hero h1 span { color: #58a6ff; }
+  .hero p {
+    font-size: 16px;
+    color: #8b949e;
+    margin-top: 12px;
+  }
+  .hero .meta {
+    margin-top: 24px;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    font-size: 14px;
+    color: #6e7681;
+  }
+  .hero .meta span { display: flex; align-items: center; gap: 6px; }
+
+  /* Section */
+  .section { padding: 50px 40px; max-width: 960px; margin: 0 auto; }
+  .section-title {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #58a6ff;
+    margin-bottom: 8px;
+  }
+  .section-heading {
+    font-size: 26px;
+    font-weight: 700;
+    color: #f0f6fc;
+    margin-bottom: 30px;
+  }
+
+  /* Pain points */
+  .pain-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .pain-card {
+    background: #161b22;
+    border: 1px solid #21262d;
+    border-radius: 12px;
+    padding: 22px 24px;
+    position: relative;
+    transition: border-color 0.2s;
+  }
+  .pain-card:hover { border-color: #30363d; }
+  .pain-card.highlight { border-color: rgba(248,81,73,0.3); background: rgba(248,81,73,0.04); }
+  .pain-number {
+    font-size: 11px;
+    font-weight: 700;
+    color: #6e7681;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+  }
+  .pain-card h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #f0f6fc;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .pain-card h3 .icon { font-size: 18px; }
+  .pain-card p { font-size: 13px; color: #8b949e; line-height: 1.6; }
+  .pain-tag {
+    display: inline-block;
+    margin-top: 12px;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: rgba(248,81,73,0.15);
+    color: #f85149;
+    border: 1px solid rgba(248,81,73,0.2);
+  }
+  .pain-card.highlight .pain-tag {
+    background: rgba(248,81,73,0.2);
+  }
+
+  /* Divider */
+  .divider {
+    border: none;
+    border-top: 1px solid #21262d;
+    margin: 0 40px;
+  }
+
+  /* Tools */
+  .tool-card {
+    background: #161b22;
+    border: 1px solid #21262d;
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .tool-header {
+    padding: 28px 30px 20px;
+    border-bottom: 1px solid #21262d;
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+  }
+  .tool-icon {
+    width: 52px; height: 52px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+  .tool-icon.blue { background: rgba(88,166,255,0.12); border: 1px solid rgba(88,166,255,0.2); }
+  .tool-icon.green { background: rgba(63,185,80,0.12); border: 1px solid rgba(63,185,80,0.2); }
+  .tool-header-text h2 { font-size: 19px; font-weight: 700; color: #f0f6fc; margin-bottom: 5px; }
+  .tool-header-text p { font-size: 13px; color: #8b949e; }
+  .tool-body { padding: 24px 30px; }
+
+  .solves {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 22px;
+  }
+  .solve-tag {
+    font-size: 12px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    background: rgba(88,166,255,0.1);
+    color: #58a6ff;
+    border: 1px solid rgba(88,166,255,0.2);
+  }
+  .solve-tag.green {
+    background: rgba(63,185,80,0.1);
+    color: #3fb950;
+    border-color: rgba(63,185,80,0.2);
+  }
+
+  .features {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 14px 16px;
+    background: #0d1117;
+    border-radius: 10px;
+    border: 1px solid #21262d;
+  }
+  .feature-check { color: #3fb950; font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+  .feature-item p { font-size: 13px; color: #c9d1d9; line-height: 1.5; }
+
+  .price-bar {
+    display: flex;
+    gap: 16px;
+    padding: 20px 22px;
+    background: #0d1117;
+    border-radius: 12px;
+    border: 1px solid #21262d;
+  }
+  .price-item { flex: 1; }
+  .price-label { font-size: 11px; color: #6e7681; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+  .price-value { font-size: 20px; font-weight: 700; color: #f0f6fc; }
+  .price-value span { font-size: 13px; font-weight: 400; color: #8b949e; }
+  .price-divider { width: 1px; background: #21262d; }
+
+  /* Bundle */
+  .bundle-card {
+    background: linear-gradient(135deg, rgba(88,166,255,0.06) 0%, rgba(63,185,80,0.06) 100%);
+    border: 1px solid rgba(88,166,255,0.25);
+    border-radius: 16px;
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .bundle-card::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    background: radial-gradient(ellipse, rgba(88,166,255,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .bundle-badge {
+    display: inline-block;
+    background: rgba(255,166,0,0.15);
+    border: 1px solid rgba(255,166,0,0.3);
+    color: #ffa600;
+    font-size: 12px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+  .bundle-card h2 { font-size: 22px; font-weight: 700; color: #f0f6fc; margin-bottom: 8px; }
+  .bundle-card p { font-size: 14px; color: #8b949e; margin-bottom: 28px; }
+  .bundle-prices {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+  .bundle-price-item {
+    flex: 1;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid #21262d;
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .bundle-price-item .label { font-size: 12px; color: #6e7681; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+  .bundle-price-item .amount { font-size: 26px; font-weight: 700; color: #f0f6fc; }
+  .bundle-price-item .amount span { font-size: 14px; color: #8b949e; font-weight: 400; }
+  .bundle-note { font-size: 13px; color: #6e7681; display: flex; align-items: center; gap: 8px; }
+
+  /* Flow */
+  .flow {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin: 24px 0;
+    flex-wrap: wrap;
+  }
+  .flow-step {
+    background: #161b22;
+    border: 1px solid #21262d;
+    border-radius: 10px;
+    padding: 14px 18px;
+    text-align: center;
+    flex: 1;
+    min-width: 140px;
+  }
+  .flow-step .num { font-size: 11px; color: #58a6ff; font-weight: 700; margin-bottom: 4px; }
+  .flow-step .text { font-size: 13px; color: #c9d1d9; }
+  .flow-arrow { color: #30363d; font-size: 20px; padding: 0 8px; flex-shrink: 0; }
+
+  /* CTA */
+  .cta {
+    text-align: center;
+    padding: 50px 40px;
+    background: #161b22;
+    border-top: 1px solid #21262d;
+  }
+  .cta h2 { font-size: 22px; font-weight: 700; color: #f0f6fc; margin-bottom: 10px; }
+  .cta p { font-size: 14px; color: #8b949e; margin-bottom: 28px; }
+  .cta-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+  }
+  .btn-primary { background: #58a6ff; color: #0d1117; }
+  .btn-secondary { background: transparent; color: #c9d1d9; border: 1px solid #30363d; }
+
+  .presenter {
+    margin-top: 30px;
+    font-size: 13px;
+    color: #6e7681;
+  }
+  .presenter strong { color: #8b949e; }
+
+  @media (max-width: 640px) {
+    .pain-grid { grid-template-columns: 1fr; }
+    .features { grid-template-columns: 1fr; }
+    .bundle-prices { flex-direction: column; }
+    .hero h1 { font-size: 26px; }
+    .section { padding: 40px 20px; }
+    .divider { margin: 0 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="badge">AI 導入提案 · 2026</div>
+  <h1>讓 <span>AI</span> 幫瑞思<br>解決真實存在的問題</h1>
+  <p>針對內部流程痛點，導入可立即見效的智慧工具</p>
+  <div class="meta">
+    <span>📅 提案日期：2026/06/24</span>
+    <span>🎯 對象：瑞思資安</span>
+    <span>👤 提案人：翁仲昱 Justin</span>
+  </div>
+</div>
+
+<!-- Pain Points -->
+<div class="section">
+  <div class="section-title">現況診斷</div>
+  <div class="section-heading">我們發現了 5 個真實痛點</div>
+
+  <div class="pain-grid">
+    <div class="pain-card">
+      <div class="pain-number">PAIN 01</div>
+      <h3><span class="icon">📄</span>報價單格式不符制式</h3>
+      <p>業務各自打出的報價單字體、排版不一致，不符用印格式，送審後需退件重做，延誤整個流程。</p>
+      <span class="pain-tag">流程延誤</span>
+    </div>
+
+    <div class="pain-card">
+      <div class="pain-number">PAIN 02</div>
+      <h3><span class="icon">📊</span>報價偏離常規，人工審查耗時</h3>
+      <p>主管需逐條人工審核報價合理性，沒有標準可對照，異常有時候直到用印才被發現。</p>
+      <span class="pain-tag">審核效率低</span>
+    </div>
+
+    <div class="pain-card highlight">
+      <div class="pain-number">PAIN 03 · 隱藏痛點</div>
+      <h3><span class="icon">🤝</span>SI 人情壓力造成低報</h3>
+      <p>業務為維護 SI 關係而刻意低報，讓利金額沒有記錄，主管難以開口管控，長期損益不透明。</p>
+      <span class="pain-tag">隱性成本流失</span>
+    </div>
+
+    <div class="pain-card highlight">
+      <div class="pain-number">PAIN 04 · 高風險</div>
+      <h3><span class="icon">🧠</span>FAE 知識集中在 2 個人</h3>
+      <p>客服技術知識高度集中，一旦關鍵人員請假或離職，客服品質立即下滑，客戶滿意度受損。</p>
+      <span class="pain-tag">單點失效風險</span>
+    </div>
+  </div>
+
+  <div class="pain-card" style="border-radius:12px; border:1px solid #21262d; padding:22px 24px; background:#161b22;">
+    <div class="pain-number">PAIN 05</div>
+    <h3><span class="icon">👥</span>FAE 互助靠意願，值班形同虛設</h3>
+    <p>內部小團體造成知識不共享，即使有人在場也不主動協助，客戶問題的回應速度完全取決於個人態度，管理難度高。</p>
+    <span class="pain-tag">服務品質不穩定</span>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- Tools -->
+<div class="section">
+  <div class="section-title">解決方案</div>
+  <div class="section-heading">2 個工具，直接對應痛點</div>
+
+  <!-- Tool A -->
+  <div class="tool-card">
+    <div class="tool-header">
+      <div class="tool-icon blue">📋</div>
+      <div class="tool-header-text">
+        <h2>工具 A｜智慧報價單系統</h2>
+        <p>從格式生成到報價審查，讓報價流程標準化、透明化</p>
+      </div>
+    </div>
+    <div class="tool-body">
+      <div class="solves">
+        <span class="solve-tag">✓ 解決 PAIN 01 格式問題</span>
+        <span class="solve-tag">✓ 解決 PAIN 02 審查耗時</span>
+        <span class="solve-tag">✓ 解決 PAIN 03 SI 低報</span>
+      </div>
+
+      <div class="features">
+        <div class="feature-item">
+          <span class="feature-check">✓</span>
+          <p>業務填資料 → 自動產出符合用印格式的報價單，格式鎖定不可亂改</p>
+        </div>
+        <div class="feature-item">
+          <span class="feature-check">✓</span>
+          <p>AI 比對歷史報價，偏離常規自動標紅，主管一眼掌握異常</p>
+        </div>
+        <div class="feature-item">
+          <span class="feature-check">✓</span>
+          <p>SI 優惠報價需填原因才能送出，系統保留完整讓利記錄</p>
+        </div>
+        <div class="feature-item">
+          <span class="feature-check">✓</span>
+          <p>低於底線自動跳警示，需主管授權碼才能繼續，系統擋人不是主管擋人</p>
+        </div>
+      </div>
+
+      <div class="price-bar">
+        <div class="price-item">
+          <div class="price-label">開發費（一次性）</div>
+          <div class="price-value">NT$ 35,000 <span>– 50,000</span></div>
+        </div>
+        <div class="price-divider"></div>
+        <div class="price-item">
+          <div class="price-label">月維護費</div>
+          <div class="price-value">NT$ 5,000 <span>– 8,000 / 月</span></div>
+        </div>
+        <div class="price-divider"></div>
+        <div class="price-item">
+          <div class="price-label">建置時間</div>
+          <div class="price-value">2 – 3 <span>週</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tool B -->
+  <div class="tool-card">
+    <div class="tool-header">
+      <div class="tool-icon green">🤖</div>
+      <div class="tool-header-text">
+        <h2>工具 B｜FAE 內部知識庫 Bot</h2>
+        <p>把關鍵人員的知識數位化，任何人都能即查即用</p>
+      </div>
+    </div>
+    <div class="tool-body">
+      <div class="solves">
+        <span class="solve-tag green">✓ 解決 PAIN 04 知識孤島</span>
+        <span class="solve-tag green">✓ 解決 PAIN 05 互助不穩定</span>
+      </div>
+
+      <div class="features">
+        <div class="feature-item">
+          <span class="feature-check">✓</span>
+          <p>整理核心 FAE 的知識、FAQ 進入結構化知識庫</p>
+        </div>
+        <div class="feature-item">
+          <span class="feature-check">✓</span>
+          <p>LINE Bot 或內部網頁即時查詢，遇到客戶問題秒找答案</p>
+        </div>
+        <div class="feature-item">
+          <span class="feature-check">✓</span>
+          <p>90% 問題 Bot 直接回答，剩下 10% 才需要問人，大幅降低對特定人員的依賴</p>
+        </div>
+        <div class="feature-item">
+          <span class="feature-check">✓</span>
+          <p>知識庫可持續擴充更新，越用越完整</p>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 20px;">
+        <div style="font-size:13px; color:#6e7681; margin-bottom: 12px; text-transform: uppercase; letter-spacing:1px;">導入後流程</div>
+        <div class="flow">
+          <div class="flow-step">
+            <div class="num">01</div>
+            <div class="text">客戶提問</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="num">02</div>
+            <div class="text">FAE 查 Bot</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="num">03</div>
+            <div class="text">90% 直接有答案</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="num">04</div>
+            <div class="text">快速回覆客戶</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="price-bar">
+        <div class="price-item">
+          <div class="price-label">開發費（含知識整理）</div>
+          <div class="price-value">NT$ 45,000 <span>– 65,000</span></div>
+        </div>
+        <div class="price-divider"></div>
+        <div class="price-item">
+          <div class="price-label">月維護費</div>
+          <div class="price-value">NT$ 8,000 <span>– 12,000 / 月</span></div>
+        </div>
+        <div class="price-divider"></div>
+        <div class="price-item">
+          <div class="price-label">建置時間</div>
+          <div class="price-value">3 – 4 <span>週</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- Bundle -->
+<div class="section">
+  <div class="bundle-card">
+    <div class="bundle-badge">🎯 推薦方案</div>
+    <h2>兩個工具打包導入</h2>
+    <p>一次解決報價流程 + 客服知識斷層，相互搭配效益最大，開發費享優惠</p>
+
+    <div class="bundle-prices">
+      <div class="bundle-price-item">
+        <div class="label">開發費（一次性）</div>
+        <div class="amount">NT$ 70,000 <span>– 100,000</span></div>
+      </div>
+      <div class="bundle-price-item">
+        <div class="label">月維護費</div>
+        <div class="amount">NT$ 10,000 <span>– 18,000 / 月</span></div>
+      </div>
+      <div class="bundle-price-item">
+        <div class="label">建議合約期</div>
+        <div class="amount">6 <span>個月起</span></div>
+      </div>
+    </div>
+
+    <div class="bundle-note">
+      💡 可先選其中一個工具試跑，驗證效益後再導入第二個
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta">
+  <h2>下一步</h2>
+  <p>選一個你們最痛的點，先做免費 Demo，有效再談合約</p>
+  <div class="cta-buttons">
+    <a href="https://line.me/ti/p/RIbly0k8iA" target="_blank" class="btn btn-primary">💬 加 LINE 開始討論</a>
+    <a href="mailto:justinxq110982@gmail.com" class="btn btn-secondary">✉️ 寄信聯繫</a>
+  </div>
+  <div class="presenter">
+    提案人：<strong>翁仲昱 Justin</strong> · AI 業務顧問 &nbsp;|&nbsp; justinxq110982@gmail.com
+  </div>
+</div>
+
+<!-- 密碼保護遮罩 -->
+<div id="pwd-overlay" style="display:none; position:fixed; inset:0; background:#0d1117; z-index:9999; flex-direction:column; align-items:center; justify-content:center; font-family:'Microsoft JhengHei','PingFang TC',sans-serif;">
+  <div style="text-align:center; padding:40px;">
+    <div style="font-size:32px; margin-bottom:12px;">🔒</div>
+    <h2 style="color:#f0f6fc; font-size:20px; margin-bottom:8px;">此提案已加密保護</h2>
+    <p style="color:#8b949e; font-size:14px; margin-bottom:32px;">請輸入密碼以查看內容</p>
+    <input id="pwd-input" type="password" placeholder="輸入密碼"
+      style="width:240px; padding:12px 16px; border-radius:8px; border:1px solid #30363d; background:#161b22; color:#f0f6fc; font-size:16px; text-align:center; outline:none; letter-spacing:4px;"
+      autofocus />
+    <br><br>
+    <button onclick="checkPwd()"
+      style="padding:12px 36px; background:#58a6ff; color:#0d1117; border:none; border-radius:8px; font-size:15px; font-weight:700; cursor:pointer; font-family:inherit;">
+      確認
+    </button>
+    <p id="pwd-error" style="color:#f85149; font-size:13px; margin-top:16px; opacity:0; transition:opacity 0.3s;">密碼錯誤，請再試一次</p>
+  </div>
+</div>
+
+</body>
+</html>
