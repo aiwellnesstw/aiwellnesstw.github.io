@@ -1,244 +1,316 @@
-<!DOCTYPE html>
-<html lang="zh-TW">
+<!doctype html>
+<html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ai.wellness.tw | 健康生活 × AI 好物分享</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Noto Sans TC', sans-serif;
-      background: linear-gradient(160deg, #fdf9f2 0%, #f5ede0 100%);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    /* ── 頂部 profile ── */
-    .profile {
-      width: 100%;
-      max-width: 480px;
-      padding: 52px 24px 24px;
-      text-align: center;
-    }
-
-    .avatar {
-      width: 96px;
-      height: 96px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 3px solid #c8a45e;
-      box-shadow: 0 4px 20px rgba(200,164,94,0.3);
-      margin-bottom: 16px;
-    }
-
-    .username {
-      font-size: 19px;
-      font-weight: 800;
-      color: #1a1a1a;
-      letter-spacing: 0.5px;
-    }
-
-    .tagline {
-      font-size: 14px;
-      color: #7a7060;
-      margin-top: 8px;
-      line-height: 1.8;
-    }
-
-    /* ── slogan 卡片 ── */
-    .slogan {
-      max-width: 432px;
-      width: calc(100% - 48px);
-      background: linear-gradient(135deg, #fff8ee, #fef0d8);
-      border: 1.5px solid #e8d4a8;
-      border-radius: 20px;
-      padding: 20px 24px;
-      margin: 20px 24px 28px;
-      text-align: center;
-    }
-
-    .slogan-line {
-      font-size: 15px;
-      color: #7a5c1e;
-      line-height: 2;
-    }
-
-    .slogan-code {
-      font-size: 26px;
-      font-weight: 900;
-      color: #c8a45e;
-      letter-spacing: 3px;
-      display: block;
-      margin: 4px 0;
-    }
-
-    /* ── 按鈕區 ── */
-    .links {
-      width: 100%;
-      max-width: 480px;
-      padding: 0 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 18px 20px;
-      border-radius: 18px;
-      text-decoration: none;
-      font-size: 15px;
-      font-weight: 700;
-      letter-spacing: 0.3px;
-      transition: transform 0.12s ease, box-shadow 0.12s ease;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    .btn:active { transform: scale(0.97); }
-
-    .btn-gold {
-      background: linear-gradient(135deg, #d4a84b, #b8893a);
-      color: #fff;
-      box-shadow: 0 6px 24px rgba(180,130,50,0.38);
-    }
-
-    .btn-green {
-      background: linear-gradient(135deg, #6db97a, #4e9e5d);
-      color: #fff;
-      box-shadow: 0 6px 24px rgba(78,158,93,0.32);
-    }
-
-    .btn-white {
-      background: #fff;
-      color: #2d2d2d;
-      border: 1.5px solid #e4d9c8;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
-    }
-
-    .btn-icon { font-size: 20px; line-height: 1; }
-
-    /* ── footer ── */
-    footer {
-      margin-top: 44px;
-      padding-bottom: 36px;
-      font-size: 12px;
-      color: #c0b8aa;
-      text-align: center;
-    }
-
-    .footer-back {
-      color: #b8893a;
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    .footer-back:hover {
-      text-decoration: underline;
-    }
-
-    /* ── 影片彈窗 ── */
-    .video-modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.92);
-      z-index: 999;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-    .video-modal.open { display: flex; }
-
-    .video-modal video {
-      max-height: 88vh;
-      max-width: min(100vw, 420px);
-      border-radius: 14px;
-    }
-
-    .video-close {
-      position: absolute;
-      top: 18px;
-      right: 22px;
-      background: rgba(255,255,255,0.15);
-      border: none;
-      color: #fff;
-      font-size: 22px;
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- 內容安全政策：只允許連到 Apps Script 後台，頁面被塞進外部腳本也連不出去 -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://script.google.com https://script.googleusercontent.com; base-uri 'none'; form-action 'none'">
+<title>嘉安生活｜仲安家保健食品・雲嘉南面交、全台宅配</title>
+<meta name="description" content="嘉安生活｜仲安家 JOIN HOME 保健食品：益生菌、魚油、葉黃素飲、黃耆養氣飲、牛樟芝。雲嘉南可面交，全台宅配，留下聯絡方式即可訂購。">
+<style>
+:root{
+  --bg:#f7f9f6; --card:#ffffff; --ink:#24302b; --muted:#66736c;
+  --green:#2f6b57; --green-dark:#1f4d3d; --line:#dfe6e1; --accent:#c8873a;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;line-height:1.65;font-size:16px;padding-bottom:72px}
+@media(min-width:768px){body{padding-bottom:0}}
+.wrap{max-width:720px;margin:0 auto;padding:0 16px}
+section{padding:28px 0}
+h1{font-size:27px;line-height:1.35;margin:0 0 10px}
+h2{font-size:20px;margin:0 0 14px}
+.hero{background:linear-gradient(160deg,#e3efe8,#f7f9f6);padding:32px 0 24px}
+.hero .co{font-size:13px;color:var(--green-dark);font-weight:600;margin-bottom:6px;letter-spacing:.5px}
+.hero p{color:var(--muted);margin:0 0 18px}
+.btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-block;padding:13px 22px;border-radius:10px;font-size:16px;font-weight:600;text-decoration:none;border:0;cursor:pointer;font-family:inherit;text-align:center}
+.btn-primary{background:var(--green);color:#fff}
+.btn-primary:hover{background:var(--green-dark)}
+.btn-sm{padding:7px 14px;font-size:14px;border-radius:8px}
+.btn-ghost{background:#fff;color:var(--green-dark);border:1px solid var(--green)}
+.btn-line{background:#06c755;color:#fff}
+.trust{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.trust span{font-size:13px;background:#fff;border:1px solid var(--line);border-radius:99px;padding:3px 12px;color:var(--green-dark)}
+.plist{display:grid;gap:14px}
+.pcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;display:grid;grid-template-columns:96px 1fr;gap:12px}
+.pcard img{width:96px;height:96px;object-fit:contain;border-radius:8px;background:#f3f6f4}
+.pcard h3{margin:0 0 2px;font-size:17px;line-height:1.4}
+.pcard .sp{font-size:13px;color:var(--muted)}
+.pcard .pr{font-size:20px;font-weight:700;color:var(--green-dark);margin:4px 0}
+.pcard .row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.step{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.step button{width:34px;height:34px;border:0;background:#f3f6f4;font-size:18px;cursor:pointer;color:var(--ink)}
+.step span{min-width:34px;text-align:center;font-weight:600}
+.more{grid-column:1/-1}
+.more summary{cursor:pointer;color:var(--green-dark);font-size:14px;font-weight:600}
+.more dl{margin:8px 0 0;display:grid;grid-template-columns:64px 1fr;gap:4px 8px;font-size:14px}
+.more dt{color:var(--muted)}.more dd{margin:0}
+.cart{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:14px;font-size:15px}
+.cart .ln{display:flex;justify-content:space-between;gap:8px;padding:3px 0}
+.cart .tot{border-top:1px dashed var(--line);margin-top:6px;padding-top:8px;font-weight:700;display:flex;justify-content:space-between}
+.hint{font-weight:400;color:var(--muted);font-size:14px}
+form{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
+label.q{display:block;font-weight:600;margin:16px 0 8px}
+label.q:first-of-type{margin-top:0}
+input[type=text],input[type=tel],textarea,select{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;font-size:16px;font-family:inherit;background:#fff}
+textarea{min-height:76px;resize:vertical}
+.opts{display:grid;gap:8px}
+.opt{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);border-radius:10px;padding:10px 12px;cursor:pointer}
+.opt input{margin-top:4px}
+.opt b{display:block}
+.opt small{color:var(--muted)}
+.hp{position:absolute;left:-9999px;height:0;overflow:hidden}
+#thanks{display:none;background:#e8f2ec;border:1px solid #bfd8c9;border-radius:12px;padding:20px}
+#thanks pre{white-space:pre-wrap;font-family:inherit;background:#fff;border-radius:8px;padding:12px;font-size:14px}
+.notice{font-size:14px;color:var(--muted);padding-left:18px;margin:0}
+footer{background:#24302b;color:#d6dcd8;padding:24px 0;font-size:14px}
+footer a{color:#fff}
+.draft{background:#fff3cd;color:#664d03;font-size:12px;text-align:center;padding:5px}
+.sticky{position:fixed;left:0;right:0;bottom:0;z-index:9;background:#fff;border-top:1px solid var(--line);padding:10px 12px;display:flex;gap:10px}
+.sticky .btn{flex:1;padding:12px 8px}
+@media(min-width:768px){.sticky{display:none}}
+</style>
 </head>
 <body>
+<div class="draft" id="draft" style="display:none">草稿：經銷商資料、聯絡方式尚未填寫，上線前請先補齊</div>
+<header class="hero">
+  <div class="wrap">
+    <div class="co">嘉安生活｜仲安家 JOIN HOME 保健食品</div>
+    <h1>仲安家正貨，雲嘉南面交、全台宅配</h1>
+    <p>選好品項、留下 LINE 或電話，我會跟你確認訂單與付款方式。不用註冊、不用先付款。</p>
+    <div class="btns">
+      <a class="btn btn-primary" href="#products" data-track="cta_products">看商品</a>
+      <a class="btn btn-line" id="lineBtn" href="#" data-track="line_click" style="display:none">LINE 聯絡我</a>
+    </div>
+    <div class="trust"><span>仲安家官方商品</span><span>雲嘉南可面交</span><span>全台宅配</span><span>有疑問可先問</span></div>
+  </div>
+</header>
 
-  <div class="profile">
-    <img class="avatar" src="avatar.png" alt="ai.wellness.tw">
-    <div class="username">ai.wellness.tw</div>
-    <div class="tagline">
-      ✨ AI 生成｜健康生活影像<br>
-      🌿 好物真實分享，從日常開始
+<section id="products">
+  <div class="wrap">
+    <h2>目前提供的商品</h2>
+    <div class="plist" id="plist"></div>
+    <p class="hint" style="margin-top:12px">價格為仲安家官網定價。更多品項歡迎直接詢問。</p>
+  </div>
+</section>
+
+<section id="order" style="background:#fff;border-top:1px solid var(--line)">
+  <div class="wrap">
+    <h2>我要訂購</h2>
+    <div class="cart" id="cart"><span class="hint">還沒選商品。請在上方商品按「＋」加入。</span></div>
+    <form id="f" autocomplete="off">
+      <label class="q">怎麼稱呼你？</label>
+      <input type="text" name="name" required>
+
+      <label class="q">電話或 LINE ID</label>
+      <input type="text" name="contact" required>
+
+      <label class="q">取貨方式</label>
+      <div class="opts" id="ship">
+        <label class="opt"><input type="radio" name="ship" value="面交" checked><span><b>雲嘉南面交</b><small>約時間地點當面交貨，現金付款</small></span></label>
+        <label class="opt"><input type="radio" name="ship" value="宅配"><span><b>宅配到府</b><small>轉帳付款，確認訂單後提供帳號；運費確認訂單時告知</small></span></label>
+      </div>
+
+      <label class="q">縣市</label>
+      <select name="county" id="county" required>
+        <option value="">請選擇</option>
+        <option>嘉義市</option><option>嘉義縣</option><option>雲林縣</option><option>台南市</option><option>其他縣市</option>
+      </select>
+
+      <div id="addrBox" style="display:none">
+        <label class="q">宅配地址</label>
+        <input type="text" name="addr" id="addr" placeholder="縣市、區、路街、門牌">
+      </div>
+
+      <label class="q">備註<span class="hint">（選填，例如方便的面交時間）</span></label>
+      <textarea name="note"></textarea>
+
+      <div class="hp" aria-hidden="true"><input type="text" name="website" tabindex="-1" autocomplete="off"></div>
+      <button class="btn btn-primary" type="submit" style="width:100%;margin-top:20px">送出訂單</button>
+      <p class="hint" style="margin:10px 0 0;font-size:13px">送出訂單後不會自動扣款，我會再與你確認內容與付款方式。你留下的資料僅用於訂單聯絡與出貨，不會提供給無關的第三方。想查詢或刪除資料，請與我聯絡。</p>
+    </form>
+    <div id="thanks">
+      <b>收到訂單了！我會盡快用你留的聯絡方式跟你確認。</b>
+      <p class="hint">你送出的內容：</p>
+      <pre id="preview"></pre>
     </div>
   </div>
+</section>
 
-  <div class="slogan">
-    <div class="slogan-line">推薦輸入 愛你抱抱我</div>
-    <span class="slogan-code">20885</span>
-    <div class="slogan-line">專員幫你追蹤訂單 🌿</div>
+<section>
+  <div class="wrap">
+    <h2>訂購須知</h2>
+    <ul class="notice">
+      <li>下單後由我與你確認品項、數量、取貨方式與付款方式，確認後才算成立。</li>
+      <li>商品為仲安家官方商品，包裝與有效日期標示於外盒。</li>
+      <li>收到商品如有瑕疵或短缺，請於 3 天內拍照聯絡，我會協助處理。</li>
+      <li>其他退換貨依消費者保護法與商品狀況辦理。</li>
+    </ul>
   </div>
+</section>
 
-  <div class="links">
-
-    <a href="#" class="btn btn-gold" onclick="openVideo(event)">
-      <span class="btn-icon">🍯</span>
-      滴雞精 x 寵愛家人
-    </a>
-
-    <a href="https://line.me/R/ti/p/@937jwoqg" class="btn btn-green">
-      <span class="btn-icon">💚</span>
-      成為健康會員（推薦人填 20885）
-    </a>
-
-    <a href="https://www.joinhome.tw" class="btn btn-white">
-      <span class="btn-icon">📦</span>
-      查看全系列產品
-    </a>
-
+<footer>
+  <div class="wrap">
+    <b id="dealerName"></b><br>
+    <span id="contactLine"></span>
+    <p style="margin:12px 0 0;font-size:12px;opacity:.75">本站商品為食品，非藥品，不具治療或預防疾病之效用。每個人體質不同，使用前請詳閱包裝標示；孕婦、授乳者、特殊體質或正在服藥者，食用前請先洽詢醫師。商品圖片與規格以包裝實物標示為準。</p>
   </div>
+</footer>
 
-  <footer>ai.wellness.tw · 健康好物分享 · <a class="footer-back" href="https://aiwellnesstw.github.io/Justin/">回到名片</a></footer>
+<div class="sticky">
+  <a class="btn btn-ghost" href="#products" data-track="cta_products">看商品</a>
+  <a class="btn btn-primary" href="#order" data-track="cta_order">我要訂購</a>
+</div>
 
-  <!-- 影片彈窗 -->
-  <div id="videoModal" class="video-modal" onclick="closeVideo(event)">
-    <button class="video-close" onclick="closeVideo()">✕</button>
-    <video id="promoVideo" src="wellness-video.mp4" controls playsinline></video>
-  </div>
+<script>
+/* ===== 設定（上線前填這裡）=====
+   ENDPOINT：Apps Script 網頁應用程式網址（見 backend/README.md）；空著 = 只在 console 印出、不送資料
+   DEALER：經銷商名稱（合約的乙方，網路販售必須揭露）。還含「待填」時，頁面頂端會顯示草稿提示
+   PHONE / LINE_URL：留空就不顯示對應按鈕 */
+const CFG = { ENDPOINT:'https://script.google.com/macros/s/AKfycby3vK_UncvLPOUqIfCEuPYnk2avANuWx9Pg5Ya03wVNEqIyPXhcqlR1MDagdeA-FxJv/exec', DEALER:'嘉安生活', PHONE:'', LINE_URL:'https://lin.ee/qRf0NK6' };
 
-  <script>
-    function openVideo(e) {
-      e.preventDefault();
-      const modal = document.getElementById('videoModal');
-      modal.classList.add('open');
-      document.getElementById('promoVideo').play();
-    }
-    function closeVideo(e) {
-      if (e && e.target !== e.currentTarget && !e.target.classList.contains('video-close')) return;
-      const modal = document.getElementById('videoModal');
-      modal.classList.remove('open');
-      const v = document.getElementById('promoVideo');
-      v.pause();
-      v.currentTime = 0;
-    }
-  </script>
+const qs = new URLSearchParams(location.search);
+const sid = (()=>{
+  const rnd = ()=>Math.random().toString(36).slice(2,10);
+  const day = new Date().toLocaleDateString('sv-SE',{timeZone:'Asia/Taipei'}).slice(5);
+  let vid;
+  try{ vid = localStorage.getItem('jh_vid'); if(!vid){ vid = rnd(); localStorage.setItem('jh_vid', vid); } }
+  catch(e){ try{ vid = sessionStorage.getItem('jh_sid') || rnd(); sessionStorage.setItem('jh_sid', vid); }catch(_){ vid = 'na'; } }
+  return vid + '-' + day;
+})();
+const SRC = (()=>{
+  const s = qs.get('src') || qs.get('utm_source');
+  if(s) return s;
+  try{ return document.referrer ? new URL(document.referrer).hostname : 'direct'; }catch(e){ return 'direct'; }
+})();
+const DEVICE = matchMedia('(max-width:767px)').matches ? 'mobile' : 'desktop';
 
+function post(row){
+  try{
+    if(CFG.ENDPOINT) navigator.sendBeacon(CFG.ENDPOINT, JSON.stringify(row));
+    else console.debug('[send]', row);
+  }catch(e){}
+}
+function track(event, props){ post(Object.assign({ts:new Date().toISOString(), sid, event, src:SRC, device:DEVICE}, props||{})); }
+try{
+  const last = +localStorage.getItem('jh_pv') || 0;
+  if(Date.now() - last > 30*60*1000){ track('page_view'); localStorage.setItem('jh_pv', Date.now()); }
+}catch(e){ track('page_view'); }
+document.querySelectorAll('[data-track]').forEach(el=>el.addEventListener('click',()=>track(el.dataset.track)));
+
+/* ===== 設定套用 ===== */
+if(CFG.DEALER.includes('待填') || (!CFG.PHONE && !CFG.LINE_URL)) document.getElementById('draft').style.display='block';
+document.getElementById('dealerName').textContent = CFG.DEALER;
+if(CFG.LINE_URL){ const b=document.getElementById('lineBtn'); b.href=CFG.LINE_URL; b.style.display='inline-block'; }
+document.getElementById('contactLine').textContent = CFG.PHONE ? '電話：' + CFG.PHONE + '　｜　服務地區：雲林、嘉義、台南（面交）・全台宅配' : '服務地區：雲林、嘉義、台南（面交）・全台宅配';
+
+/* ===== 商品（價格＝仲安家官網定價，2026-10-27 抓取；文案只寫成分、規格、用法，不寫療效）=====
+   改價格或品項時，backend/Code.gs 的 PRICES 也要一起改（後台用它重算金額，防止被竄改） */
+const PRODUCTS = [
+  {id:'probiotics', n:'仲安家益生菌', spec:'2g × 60 包／盒', price:1890, img:'img/probiotics.png',
+   ing:'乳酸菌凍乾品（Lactobacillus plantarum、Bifidobacterium lactis、Lactobacillus paracasei、Lactococcus lactis、Lactobacillus rhamnosus、Bifidobacterium bifidum、Lactobacillus brevis、Lactobacillus fermentum、Lactobacillus gasseri、Bifidobacterium longum）、赤藻糖醇、難消化性麥芽糊精、優酪粉等；完整成分以包裝標示為準',
+   use:'每日 1–2 包，可直接食用或搭配開水。',
+   note:'含牛奶及含麩質之穀物製品。避免與抗生素同時使用，建議間隔 2 小時以上。一歲以下嬰兒不建議食用。已取得 SNQ 國家品質標章（國品字第 P080134 號）。'},
+  {id:'huangqi', n:'仲安家黃耆養氣飲', spec:'50 毫升 × 18 包／盒', price:2400, img:'img/huangqi.png',
+   ing:'純水、黃耆、紅棗、枸杞、黨蔘、茯苓',
+   use:'每日 1–2 包。開封前先搖勻，可直接飲用，或隔水加熱、加適量溫水稀釋。',
+   note:'草本萃取，每批口感略有差異、有少量沉澱屬自然現象。懷孕、授乳婦女及特殊體質者飲用前請先洽詢醫師。軟性鋁袋如破裂或膨包請勿飲用。'},
+  {id:'fish', n:'仲安家 ULTRA FISH Oil 頂極魚油', spec:'0.83g（含膠囊）× 60 顆／盒', price:1600, img:'img/fish.png',
+   ing:'濃縮魚油、維生素 E（抗氧化劑）；膠囊：明膠、甘油、水。標示 Omega-3 93%、EPA ≧ 50%、DHA ≧ 36%',
+   use:'每日一次，餐後 2 顆。',
+   note:'含有魚油。嬰幼兒、孕婦、糖尿病患者或正在服用抗凝血劑之凝血功能不全者，食用前請先徵詢醫師意見。'},
+  {id:'lutein', n:'仲安家葉黃素活力精華飲', spec:'60ml × 10 瓶／盒', price:950, img:'img/lutein.png',
+   ing:'水、蔗糖、牛磺酸、葉黃素（FloraGLO®）、玉米黃素、維生素 C、維生素 B 群、胺基酸等；完整成分以包裝標示為準',
+   use:'每日限量 1 瓶，飲用前先搖一搖。',
+   note:'含植物萃取，如有沉澱或顏色風味略有差異屬自然現象。開封後請盡速飲用完畢。'},
+  {id:'antromax', n:'Antromax® 牛樟芝菌絲體膠囊', spec:'60 顆／盒', price:2400, img:'img/antromax.png',
+   ing:'固態培養牛樟芝菌絲體粉末（Antrodia cinnamomea Mycelia powder）；膠囊成分以包裝標示為準',
+   use:'用法用量請見包裝標示。',
+   note:'孕婦、授乳者、特殊體質或正在服藥者，食用前請先洽詢醫師。'}
+];
+const money = n => 'NT$' + n.toLocaleString('en-US');
+const qty = {};   // id → 數量
+PRODUCTS.forEach(p=>qty[p.id]=0);
+
+const plist = document.getElementById('plist');
+PRODUCTS.forEach(p=>{
+  const el = document.createElement('div'); el.className='pcard';
+  el.innerHTML = `
+    <img src="${p.img}" alt="${p.n}" width="96" height="96" loading="lazy">
+    <div>
+      <h3>${p.n}</h3>
+      <div class="sp">${p.spec}</div>
+      <div class="pr">${money(p.price)}</div>
+      <div class="row"><span class="step"><button type="button" data-d="-1" aria-label="減少">－</button><span>0</span><button type="button" data-d="1" aria-label="增加">＋</button></span></div>
+    </div>
+    <details class="more"><summary>成分與注意事項</summary>
+      <dl><dt>成分</dt><dd></dd><dt>用法</dt><dd></dd><dt>注意</dt><dd></dd></dl>
+    </details>`;
+  const dd = el.querySelectorAll('dd'); dd[0].textContent=p.ing; dd[1].textContent=p.use; dd[2].textContent=p.note;   // 用 textContent，不吃 HTML
+  el.querySelector('details').addEventListener('toggle', e=>{ if(e.target.open) track('product_view',{product:p.id}); });
+  el.querySelectorAll('.step button').forEach(b=>b.onclick=()=>{
+    const v = Math.max(0, Math.min(99, qty[p.id] + (+b.dataset.d)));
+    if(v > qty[p.id]) track('cart_add',{product:p.id});
+    qty[p.id] = v; el.querySelector('.step span').textContent = v; renderCart();
+  });
+  plist.appendChild(el);
+});
+
+function lines(){ return PRODUCTS.filter(p=>qty[p.id]>0).map(p=>({id:p.id, n:p.n, q:qty[p.id], sub:p.price*qty[p.id]})); }
+function total(){ return lines().reduce((s,l)=>s+l.sub,0); }
+function renderCart(){
+  const box = document.getElementById('cart'); const ls = lines();
+  if(!ls.length){ box.innerHTML = '<span class="hint">還沒選商品。請在上方商品按「＋」加入。</span>'; return; }
+  box.replaceChildren(...ls.map(l=>{ const d=document.createElement('div'); d.className='ln'; d.innerHTML='<span></span><span></span>'; d.children[0].textContent=`${l.n} × ${l.q}`; d.children[1].textContent=money(l.sub); return d; }),
+    (()=>{ const d=document.createElement('div'); d.className='tot'; d.innerHTML='<span>商品合計（不含運費）</span><span></span>'; d.children[1].textContent=money(total()); return d; })());
+}
+
+/* ===== 取貨方式：宅配才要地址 ===== */
+const addrBox = document.getElementById('addrBox'), addr = document.getElementById('addr');
+document.querySelectorAll('input[name=ship]').forEach(r=>r.onchange=()=>{
+  const home = document.querySelector('input[name=ship]:checked').value==='宅配';
+  addrBox.style.display = home ? 'block' : 'none'; addr.required = home;
+});
+
+/* ===== 表單進度追蹤 ===== */
+const form = document.getElementById('f');
+let started=false, submitted=false, abandonSent=false, lastField='';
+form.addEventListener('focusin', e=>{
+  const n = e.target.name; if(!n || n==='website') return;
+  if(!started){ started=true; track('form_start',{field:n}); }
+  lastField = n;
+});
+function sendAbandon(){ if(started && !submitted && !abandonSent){ abandonSent=true; track('form_abandon',{last_field:lastField}); } }
+document.addEventListener('visibilitychange', ()=>{ if(document.visibilityState==='hidden') sendAbandon(); });
+addEventListener('pagehide', sendAbandon);
+
+form.onsubmit = e=>{
+  e.preventDefault();
+  const ls = lines();
+  if(!ls.length){
+    const c = document.getElementById('cart'); c.textContent = '請先在上方選擇商品數量，再送出訂單。'; c.style.borderColor = '#c0392b';
+    document.getElementById('products').scrollIntoView({behavior:'smooth'}); return;
+  }
+  const fd = new FormData(e.target);
+  if(fd.get('website')) return;                         // 機器人填了隱藏欄位
+  const order = {
+    event:'order', ts:new Date().toISOString(), sid, src:SRC, device:DEVICE,
+    items: ls.map(l=>({id:l.id, qty:l.q})),
+    name:fd.get('name'), contact:fd.get('contact'), ship:fd.get('ship'), county:fd.get('county')||'',
+    addr: fd.get('ship')==='宅配' ? (fd.get('addr')||'') : '', note:fd.get('note')||''
+  };
+  submitted = true;
+  post(order);
+  track('form_submit',{total:total(), ship:order.ship});
+  document.getElementById('preview').textContent = [
+    ...ls.map(l=>`${l.n} × ${l.q}　${money(l.sub)}`),
+    `商品合計（不含運費）：${money(total())}`,
+    `取貨：${order.ship}${order.addr ? '（' + order.addr + '）' : ''}`,
+    `稱呼：${order.name}`, `聯絡：${order.contact}`, order.county ? `縣市：${order.county}` : '', order.note ? `備註：${order.note}` : ''
+  ].filter(Boolean).join('\n');
+  e.target.style.display='none';
+  document.getElementById('thanks').style.display='block';
+};
+</script>
 </body>
 </html>
