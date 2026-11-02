@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- 內容安全政策：只允許連到 Apps Script 後台，頁面被塞進外部腳本也連不出去 -->
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://script.google.com https://script.googleusercontent.com; base-uri 'none'; form-action 'none'">
-<title>嘉安生活｜仲安家保健食品・雲嘉南面交、全台宅配</title>
-<meta name="description" content="嘉安生活｜仲安家 JOIN HOME 保健食品：益生菌、魚油、葉黃素飲、黃耆養氣飲、牛樟芝。雲嘉南可面交，全台宅配，留下聯絡方式即可訂購。">
+<title>嘉安生活｜仲安家保健食品・全台宅配</title>
+<meta name="description" content="嘉安生活｜仲安家 JOIN HOME 保健食品：益生菌、魚油、葉黃素飲、黃耆養氣飲、牛樟芝。全台宅配，留下聯絡方式即可訂購。">
 <style>
 :root{
   --bg:#f7f9f6; --card:#ffffff; --ink:#24302b; --muted:#66736c;
@@ -76,13 +76,13 @@ footer a{color:#fff}
 <header class="hero">
   <div class="wrap">
     <div class="co">嘉安生活｜仲安家 JOIN HOME 保健食品</div>
-    <h1>仲安家正貨，雲嘉南面交、全台宅配</h1>
+    <h1>日常保健好物，全台宅配</h1>
     <p>選好品項、留下 LINE 或電話，我會跟你確認訂單與付款方式。不用註冊、不用先付款。</p>
     <div class="btns">
       <a class="btn btn-primary" href="#products" data-track="cta_products">看商品</a>
       <a class="btn btn-line" id="lineBtn" href="#" data-track="line_click" style="display:none">LINE 聯絡我</a>
     </div>
-    <div class="trust"><span>仲安家官方商品</span><span>雲嘉南可面交</span><span>全台宅配</span><span>有疑問可先問</span></div>
+    <div class="trust"><span>全台宅配</span><span>滿 NT$1,000 免運</span><span>有疑問可先問</span></div>
   </div>
 </header>
 
@@ -90,7 +90,7 @@ footer a{color:#fff}
   <div class="wrap">
     <h2>目前提供的商品</h2>
     <div class="plist" id="plist"></div>
-    <p class="hint" style="margin-top:12px">價格為仲安家官網定價。更多品項歡迎直接詢問。</p>
+    <p class="hint" style="margin-top:12px">更多品項歡迎直接詢問。</p>
   </div>
 </section>
 
@@ -107,22 +107,21 @@ footer a{color:#fff}
 
       <label class="q">取貨方式</label>
       <div class="opts" id="ship">
-        <label class="opt"><input type="radio" name="ship" value="面交" checked><span><b>雲嘉南面交</b><small>約時間地點當面交貨，現金付款</small></span></label>
-        <label class="opt"><input type="radio" name="ship" value="宅配"><span><b>宅配到府</b><small>轉帳付款，確認訂單後提供帳號；運費確認訂單時告知</small></span></label>
+        <label class="opt"><input type="radio" name="ship" value="宅配" checked><span><b>宅配到府</b><small>滿 NT$1,000 免運，未滿運費 NT$50；轉帳付款，確認訂單後提供帳號</small></span></label>
       </div>
 
       <label class="q">縣市</label>
       <select name="county" id="county" required>
         <option value="">請選擇</option>
-        <option>嘉義市</option><option>嘉義縣</option><option>雲林縣</option><option>台南市</option><option>其他縣市</option>
+        <option>基隆市</option><option>台北市</option><option>新北市</option><option>桃園市</option><option>新竹市</option><option>新竹縣</option><option>苗栗縣</option><option>台中市</option><option>彰化縣</option><option>南投縣</option><option>雲林縣</option><option>嘉義市</option><option>嘉義縣</option><option>台南市</option><option>高雄市</option><option>屏東縣</option><option>宜蘭縣</option><option>花蓮縣</option><option>台東縣</option><option>澎湖縣</option><option>金門縣</option><option>連江縣</option>
       </select>
 
-      <div id="addrBox" style="display:none">
+      <div id="addrBox">
         <label class="q">宅配地址</label>
-        <input type="text" name="addr" id="addr" placeholder="縣市、區、路街、門牌">
+        <input type="text" name="addr" id="addr" placeholder="縣市、區、路街、門牌" required>
       </div>
 
-      <label class="q">備註<span class="hint">（選填，例如方便的面交時間）</span></label>
+      <label class="q">備註<span class="hint">（選填，例如方便收貨的時段）</span></label>
       <textarea name="note"></textarea>
 
       <div class="hp" aria-hidden="true"><input type="text" name="website" tabindex="-1" autocomplete="off"></div>
@@ -202,11 +201,19 @@ document.querySelectorAll('[data-track]').forEach(el=>el.addEventListener('click
 if(CFG.DEALER.includes('待填') || (!CFG.PHONE && !CFG.LINE_URL)) document.getElementById('draft').style.display='block';
 document.getElementById('dealerName').textContent = CFG.DEALER;
 if(CFG.LINE_URL){ const b=document.getElementById('lineBtn'); b.href=CFG.LINE_URL; b.style.display='inline-block'; }
-document.getElementById('contactLine').textContent = CFG.PHONE ? '電話：' + CFG.PHONE + '　｜　服務地區：雲林、嘉義、台南（面交）・全台宅配' : '服務地區：雲林、嘉義、台南（面交）・全台宅配';
+document.getElementById('contactLine').textContent = CFG.PHONE ? '電話：' + CFG.PHONE + '　｜　全台宅配' : '全台宅配';
 
 /* ===== 商品（價格＝仲安家官網定價，2026-10-27 抓取；文案只寫成分、規格、用法，不寫療效）=====
    改價格或品項時，backend/Code.gs 的 PRICES 也要一起改（後台用它重算金額，防止被竄改） */
 const PRODUCTS = [
+  {id:'lutein', n:'仲安家葉黃素活力精華飲', spec:'60ml × 10 瓶／盒', price:950, img:'img/lutein.png',
+   ing:'水、蔗糖、牛磺酸、葉黃素（FloraGLO®）、玉米黃素、維生素 C、維生素 B 群、胺基酸等；完整成分以包裝標示為準',
+   use:'每日限量 1 瓶，飲用前先搖一搖。',
+   note:'含植物萃取，如有沉澱或顏色風味略有差異屬自然現象。開封後請盡速飲用完畢。'},
+  {id:'dgg24', n:'仲安家滴雞精 平裝盒', spec:'50ml × 24 包／盒', price:5000, img:'img/dgg24.jpg',
+   ing:'土雞萃取液（紅羽土雞，文火慢熬，無添加水或高湯）',
+   use:'建議空腹飲用，開封後請一次飲用完畢；可直接喝或隔水加熱。',
+   note:'常溫保存，避免高溫與陽光直射；保存期限 24 個月。如有沉澱為正常現象；包裝破損、軟袋鼓起或有異味請勿食用。二歲以下幼兒不建議飲用；痛風、高血壓、楓糖尿症及腎臟病患者飲用前請先詢問醫師。已取得 SNQ 國家品質標章（國品字第 P080130 號）。'},
   {id:'probiotics', n:'仲安家益生菌', spec:'2g × 60 包／盒', price:1890, img:'img/probiotics.png',
    ing:'乳酸菌凍乾品（Lactobacillus plantarum、Bifidobacterium lactis、Lactobacillus paracasei、Lactococcus lactis、Lactobacillus rhamnosus、Bifidobacterium bifidum、Lactobacillus brevis、Lactobacillus fermentum、Lactobacillus gasseri、Bifidobacterium longum）、赤藻糖醇、難消化性麥芽糊精、優酪粉等；完整成分以包裝標示為準',
    use:'每日 1–2 包，可直接食用或搭配開水。',
@@ -219,10 +226,6 @@ const PRODUCTS = [
    ing:'濃縮魚油、維生素 E（抗氧化劑）；膠囊：明膠、甘油、水。標示 Omega-3 93%、EPA ≧ 50%、DHA ≧ 36%',
    use:'每日一次，餐後 2 顆。',
    note:'含有魚油。嬰幼兒、孕婦、糖尿病患者或正在服用抗凝血劑之凝血功能不全者，食用前請先徵詢醫師意見。'},
-  {id:'lutein', n:'仲安家葉黃素活力精華飲', spec:'60ml × 10 瓶／盒', price:950, img:'img/lutein.png',
-   ing:'水、蔗糖、牛磺酸、葉黃素（FloraGLO®）、玉米黃素、維生素 C、維生素 B 群、胺基酸等；完整成分以包裝標示為準',
-   use:'每日限量 1 瓶，飲用前先搖一搖。',
-   note:'含植物萃取，如有沉澱或顏色風味略有差異屬自然現象。開封後請盡速飲用完畢。'},
   {id:'antromax', n:'Antromax® 牛樟芝菌絲體膠囊', spec:'60 顆／盒', price:2400, img:'img/antromax.png',
    ing:'固態培養牛樟芝菌絲體粉末（Antrodia cinnamomea Mycelia powder）；膠囊成分以包裝標示為準',
    use:'用法用量請見包裝標示。',
@@ -258,11 +261,16 @@ PRODUCTS.forEach(p=>{
 
 function lines(){ return PRODUCTS.filter(p=>qty[p.id]>0).map(p=>({id:p.id, n:p.n, q:qty[p.id], sub:p.price*qty[p.id]})); }
 function total(){ return lines().reduce((s,l)=>s+l.sub,0); }
+/* 運費：宅配滿 SHIP_FREE 免運，沒滿收 SHIP_FEE；面交不收 */
+const SHIP_FREE = 1000, SHIP_FEE = 50;
+const isHome = ()=> (document.querySelector('input[name=ship]:checked')||{}).value==='宅配';
+const shipFee = ()=> isHome() && total() < SHIP_FREE ? SHIP_FEE : 0;
+function row(label, val, cls){ const d=document.createElement('div'); d.className=cls; d.innerHTML='<span></span><span></span>'; d.children[0].textContent=label; d.children[1].textContent=val; return d; }
 function renderCart(){
   const box = document.getElementById('cart'); const ls = lines();
   if(!ls.length){ box.innerHTML = '<span class="hint">還沒選商品。請在上方商品按「＋」加入。</span>'; return; }
-  box.replaceChildren(...ls.map(l=>{ const d=document.createElement('div'); d.className='ln'; d.innerHTML='<span></span><span></span>'; d.children[0].textContent=`${l.n} × ${l.q}`; d.children[1].textContent=money(l.sub); return d; }),
-    (()=>{ const d=document.createElement('div'); d.className='tot'; d.innerHTML='<span>商品合計（不含運費）</span><span></span>'; d.children[1].textContent=money(total()); return d; })());
+  const extra = isHome() ? [row(shipFee() ? `運費（滿 ${money(SHIP_FREE)} 免運）` : '運費（已達免運）', money(shipFee()), 'ln')] : [];
+  box.replaceChildren(...ls.map(l=>row(`${l.n} × ${l.q}`, money(l.sub), 'ln')), ...extra, row('合計', money(total() + shipFee()), 'tot'));
 }
 
 /* ===== 取貨方式：宅配才要地址 ===== */
@@ -270,6 +278,7 @@ const addrBox = document.getElementById('addrBox'), addr = document.getElementBy
 document.querySelectorAll('input[name=ship]').forEach(r=>r.onchange=()=>{
   const home = document.querySelector('input[name=ship]:checked').value==='宅配';
   addrBox.style.display = home ? 'block' : 'none'; addr.required = home;
+  renderCart();
 });
 
 /* ===== 表單進度追蹤 ===== */
@@ -304,7 +313,8 @@ form.onsubmit = e=>{
   track('form_submit',{total:total(), ship:order.ship});
   document.getElementById('preview').textContent = [
     ...ls.map(l=>`${l.n} × ${l.q}　${money(l.sub)}`),
-    `商品合計（不含運費）：${money(total())}`,
+    ...(order.ship==='宅配' ? [`運費：${money(shipFee())}`] : []),
+    `合計：${money(total() + shipFee())}`,
     `取貨：${order.ship}${order.addr ? '（' + order.addr + '）' : ''}`,
     `稱呼：${order.name}`, `聯絡：${order.contact}`, order.county ? `縣市：${order.county}` : '', order.note ? `備註：${order.note}` : ''
   ].filter(Boolean).join('\n');
