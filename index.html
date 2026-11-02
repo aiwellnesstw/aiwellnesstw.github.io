@@ -36,6 +36,7 @@ h2{font-size:20px;margin:0 0 14px}
 .pcard img{width:96px;height:96px;object-fit:contain;border-radius:8px;background:#f3f6f4}
 .pcard h3{margin:0 0 2px;font-size:17px;line-height:1.4}
 .pcard .sp{font-size:13px;color:var(--muted)}
+.pcard .tag{display:inline-block;font-size:12px;font-weight:600;color:#8a4b12;background:#fdf0e1;border-radius:99px;padding:1px 10px;margin:2px 0 4px}
 .pcard .pr{font-size:20px;font-weight:700;color:var(--green-dark);margin:4px 0}
 .pcard .row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .step{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:8px;overflow:hidden}
@@ -76,11 +77,11 @@ footer a{color:#fff}
 <header class="hero">
   <div class="wrap">
     <div class="co">嘉安生活｜仲安家 JOIN HOME 保健食品</div>
-    <h1>日常保健好物，全台宅配</h1>
-    <p>選好品項、留下 LINE 或電話，我會跟你確認訂單與付款方式。不用註冊、不用先付款。</p>
+    <h1>阿嬤口袋那瓶，就是在這裡買的</h1>
+    <p>《阿嬤的相親作戰》裡那瓶，阿嬤自己也有喝。其他阿嬤喜歡的好物都在下面，看中意就按「＋」，我再用 LINE 跟你確認，不用註冊、不用先付錢。</p>
     <div class="btns">
-      <a class="btn btn-primary" href="#products" data-track="cta_products">看商品</a>
-      <a class="btn btn-line" id="lineBtn" href="#" data-track="line_click" style="display:none">LINE 聯絡我</a>
+      <a class="btn btn-primary" href="#products" data-track="cta_products">看阿嬤喜歡的</a>
+      <a class="btn btn-line" id="lineBtn" href="#" data-track="line_click" style="display:none">LINE 問我</a>
     </div>
     <div class="trust"><span>全台宅配</span><span>滿 NT$1,000 免運</span><span>有疑問可先問</span></div>
   </div>
@@ -88,7 +89,7 @@ footer a{color:#fff}
 
 <section id="products">
   <div class="wrap">
-    <h2>目前提供的商品</h2>
+    <h2>阿嬤喜歡的好物</h2>
     <div class="plist" id="plist"></div>
     <p class="hint" style="margin-top:12px">更多品項歡迎直接詢問。</p>
   </div>
@@ -97,7 +98,7 @@ footer a{color:#fff}
 <section id="order" style="background:#fff;border-top:1px solid var(--line)">
   <div class="wrap">
     <h2>我要訂購</h2>
-    <div class="cart" id="cart"><span class="hint">還沒選商品。請在上方商品按「＋」加入。</span></div>
+    <div class="cart" id="cart"><span class="hint">還沒選東西喔，在上面按「＋」加進來。</span></div>
     <form id="f" autocomplete="off">
       <label class="q">怎麼稱呼你？</label>
       <input type="text" name="name" required>
@@ -129,7 +130,7 @@ footer a{color:#fff}
       <p class="hint" style="margin:10px 0 0;font-size:13px">送出訂單後不會自動扣款，我會再與你確認內容與付款方式。你留下的資料僅用於訂單聯絡與出貨，不會提供給無關的第三方。想查詢或刪除資料，請與我聯絡。</p>
     </form>
     <div id="thanks">
-      <b>收到訂單了！我會盡快用你留的聯絡方式跟你確認。</b>
+      <b>收到了！我會盡快用你留的聯絡方式跟你確認。</b>
       <p class="hint">你送出的內容：</p>
       <pre id="preview"></pre>
     </div>
@@ -157,7 +158,7 @@ footer a{color:#fff}
 </footer>
 
 <div class="sticky">
-  <a class="btn btn-ghost" href="#products" data-track="cta_products">看商品</a>
+  <a class="btn btn-ghost" href="#products" data-track="cta_products">看阿嬤喜歡的</a>
   <a class="btn btn-primary" href="#order" data-track="cta_order">我要訂購</a>
 </div>
 
@@ -206,11 +207,11 @@ document.getElementById('contactLine').textContent = CFG.PHONE ? '電話：' + C
 /* ===== 商品（價格＝仲安家官網定價，2026-10-27 抓取；文案只寫成分、規格、用法，不寫療效）=====
    改價格或品項時，backend/Code.gs 的 PRICES 也要一起改（後台用它重算金額，防止被竄改） */
 const PRODUCTS = [
-  {id:'lutein', n:'仲安家葉黃素活力精華飲', spec:'60ml × 10 瓶／盒', price:950, img:'img/lutein.png',
+  {id:'lutein', n:'仲安家葉黃素活力精華飲', tag:'阿嬤自己也有喝', spec:'60ml × 10 瓶／盒', price:950, img:'img/lutein.png',
    ing:'水、蔗糖、牛磺酸、葉黃素（FloraGLO®）、玉米黃素、維生素 C、維生素 B 群、胺基酸等；完整成分以包裝標示為準',
    use:'每日限量 1 瓶，飲用前先搖一搖。',
    note:'含植物萃取，如有沉澱或顏色風味略有差異屬自然現象。開封後請盡速飲用完畢。'},
-  {id:'dgg24', n:'仲安家滴雞精 平裝盒', spec:'50ml × 24 包／盒', price:5000, img:'img/dgg24.jpg',
+  {id:'dgg24', n:'仲安家滴雞精 平裝盒', tag:'阿嬤喜歡這個', spec:'50ml × 24 包／盒', price:5000, img:'img/dgg24.jpg',
    ing:'土雞萃取液（紅羽土雞，文火慢熬，無添加水或高湯）',
    use:'建議空腹飲用，開封後請一次飲用完畢；可直接喝或隔水加熱。',
    note:'常溫保存，避免高溫與陽光直射；保存期限 24 個月。如有沉澱為正常現象；包裝破損、軟袋鼓起或有異味請勿食用。二歲以下幼兒不建議飲用；痛風、高血壓、楓糖尿症及腎臟病患者飲用前請先詢問醫師。已取得 SNQ 國家品質標章（國品字第 P080130 號）。'},
@@ -242,6 +243,7 @@ PRODUCTS.forEach(p=>{
     <img src="${p.img}" alt="${p.n}" width="96" height="96" loading="lazy">
     <div>
       <h3>${p.n}</h3>
+      ${p.tag ? `<span class="tag">${p.tag}</span>` : ''}
       <div class="sp">${p.spec}</div>
       <div class="pr">${money(p.price)}</div>
       <div class="row"><span class="step"><button type="button" data-d="-1" aria-label="減少">－</button><span>0</span><button type="button" data-d="1" aria-label="增加">＋</button></span></div>
@@ -268,7 +270,7 @@ const shipFee = ()=> isHome() && total() < SHIP_FREE ? SHIP_FEE : 0;
 function row(label, val, cls){ const d=document.createElement('div'); d.className=cls; d.innerHTML='<span></span><span></span>'; d.children[0].textContent=label; d.children[1].textContent=val; return d; }
 function renderCart(){
   const box = document.getElementById('cart'); const ls = lines();
-  if(!ls.length){ box.innerHTML = '<span class="hint">還沒選商品。請在上方商品按「＋」加入。</span>'; return; }
+  if(!ls.length){ box.innerHTML = '<span class="hint">還沒選東西喔，在上面按「＋」加進來。</span>'; return; }
   const extra = isHome() ? [row(shipFee() ? `運費（滿 ${money(SHIP_FREE)} 免運）` : '運費（已達免運）', money(shipFee()), 'ln')] : [];
   box.replaceChildren(...ls.map(l=>row(`${l.n} × ${l.q}`, money(l.sub), 'ln')), ...extra, row('合計', money(total() + shipFee()), 'tot'));
 }
@@ -297,7 +299,7 @@ form.onsubmit = e=>{
   e.preventDefault();
   const ls = lines();
   if(!ls.length){
-    const c = document.getElementById('cart'); c.textContent = '請先在上方選擇商品數量，再送出訂單。'; c.style.borderColor = '#c0392b';
+    const c = document.getElementById('cart'); c.textContent = '還沒選東西喔！先在上面按「＋」。'; c.style.borderColor = '#c0392b';
     document.getElementById('products').scrollIntoView({behavior:'smooth'}); return;
   }
   const fd = new FormData(e.target);
