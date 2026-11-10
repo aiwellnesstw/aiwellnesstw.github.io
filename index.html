@@ -103,8 +103,11 @@ footer a{color:#fff}
       <label class="q">怎麼稱呼你？</label>
       <input type="text" name="name" required>
 
-      <label class="q">電話或 LINE ID</label>
-      <input type="text" name="contact" required>
+      <label class="q">手機號碼<span class="hint">（出貨與確認訂單用）</span></label>
+      <input type="tel" name="phone" inputmode="tel" pattern="[0-9+\-\s]{8,15}" maxlength="15" placeholder="例如 0912345678" title="請輸入 8～15 位數字的電話號碼" required>
+
+      <label class="q">LINE ID<span class="hint">（選填，方便用 LINE 聯絡你）</span></label>
+      <input type="text" name="line" maxlength="40">
 
       <label class="q">取貨方式</label>
       <div class="opts" id="ship">
@@ -131,7 +134,9 @@ footer a{color:#fff}
     </form>
     <div id="thanks">
       <b>收到了！我會盡快用你留的聯絡方式跟你確認。</b>
-      <p class="hint">你送出的內容：</p>
+      <p style="margin:12px 0 4px">加我 LINE，確認訂單、查出貨進度都比較快：</p>
+      <a class="btn btn-line" id="lineBtn2" href="#" data-track="line_after_order" target="_blank" rel="noopener" style="display:none">加 LINE 好友</a>
+      <p class="hint" style="margin-top:16px">你送出的內容：</p>
       <pre id="preview"></pre>
     </div>
   </div>
@@ -201,7 +206,7 @@ document.querySelectorAll('[data-track]').forEach(el=>el.addEventListener('click
 /* ===== 設定套用 ===== */
 if(CFG.DEALER.includes('待填') || (!CFG.PHONE && !CFG.LINE_URL)) document.getElementById('draft').style.display='block';
 document.getElementById('dealerName').textContent = CFG.DEALER;
-if(CFG.LINE_URL){ const b=document.getElementById('lineBtn'); b.href=CFG.LINE_URL; b.style.display='inline-block'; }
+if(CFG.LINE_URL){ ['lineBtn','lineBtn2'].forEach(id=>{ const b=document.getElementById(id); b.href=CFG.LINE_URL; b.style.display='inline-block'; }); }
 document.getElementById('contactLine').textContent = CFG.PHONE ? '電話：' + CFG.PHONE + '　｜　全台宅配' : '全台宅配';
 
 /* ===== 商品（價格＝仲安家官網定價，2026-10-27 抓取；文案只寫成分、規格、用法，不寫療效）=====
@@ -307,7 +312,7 @@ form.onsubmit = e=>{
   const order = {
     event:'order', ts:new Date().toISOString(), sid, src:SRC, device:DEVICE,
     items: ls.map(l=>({id:l.id, qty:l.q})),
-    name:fd.get('name'), contact:fd.get('contact'), ship:fd.get('ship'), county:fd.get('county')||'',
+    name:fd.get('name'), phone:(fd.get('phone')||'').trim(), line:(fd.get('line')||'').trim(), ship:fd.get('ship'), county:fd.get('county')||'',
     addr: fd.get('ship')==='宅配' ? (fd.get('addr')||'') : '', note:fd.get('note')||''
   };
   submitted = true;
@@ -318,7 +323,7 @@ form.onsubmit = e=>{
     ...(order.ship==='宅配' ? [`運費：${money(shipFee())}`] : []),
     `合計：${money(total() + shipFee())}`,
     `取貨：${order.ship}${order.addr ? '（' + order.addr + '）' : ''}`,
-    `稱呼：${order.name}`, `聯絡：${order.contact}`, order.county ? `縣市：${order.county}` : '', order.note ? `備註：${order.note}` : ''
+    `稱呼：${order.name}`, `手機：${order.phone}`, order.line ? `LINE ID：${order.line}` : '',order.county ? `縣市：${order.county}` : '', order.note ? `備註：${order.note}` : ''
   ].filter(Boolean).join('\n');
   e.target.style.display='none';
   document.getElementById('thanks').style.display='block';
