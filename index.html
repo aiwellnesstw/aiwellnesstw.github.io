@@ -77,10 +77,10 @@ footer a{color:#fff}
 <header class="hero">
   <div class="wrap">
     <div class="co">嘉安生活｜仲安家 JOIN HOME 保健食品</div>
-    <h1>阿嬤口袋那瓶，就是在這裡買的</h1>
-    <p>《阿嬤的相親作戰》裡那瓶，阿嬤自己也有喝。其他阿嬤喜歡的好物都在下面，看中意就按「＋」，我再用 LINE 跟你確認，不用註冊、不用先付錢。</p>
+    <h1>影片裡看到的好物，這裡買得到</h1>
+    <p>追劇時看到的那些保健好物，都整理在下面。看中意就按「＋」，我再用 LINE 跟你確認，不用註冊、不用先付錢。</p>
     <div class="btns">
-      <a class="btn btn-primary" href="#products" data-track="cta_products">看阿嬤喜歡的</a>
+      <a class="btn btn-primary" href="#products" data-track="cta_products">看看有哪些好物</a>
       <a class="btn btn-line" id="lineBtn" href="#" data-track="line_click" style="display:none">LINE 問我</a>
     </div>
     <div class="trust"><span>全台宅配</span><span>滿 NT$1,000 免運</span><span>有疑問可先問</span></div>
@@ -89,7 +89,7 @@ footer a{color:#fff}
 
 <section id="products">
   <div class="wrap">
-    <h2>阿嬤喜歡的好物</h2>
+    <h2>精選好物</h2>
     <div class="plist" id="plist"></div>
     <p class="hint" style="margin-top:12px">更多品項歡迎直接詢問。</p>
   </div>
@@ -163,7 +163,7 @@ footer a{color:#fff}
 </footer>
 
 <div class="sticky">
-  <a class="btn btn-ghost" href="#products" data-track="cta_products">看阿嬤喜歡的</a>
+  <a class="btn btn-ghost" href="#products" data-track="cta_products">看看好物</a>
   <a class="btn btn-primary" href="#order" data-track="cta_order">我要訂購</a>
 </div>
 
@@ -212,11 +212,11 @@ document.getElementById('contactLine').textContent = CFG.PHONE ? '電話：' + C
 /* ===== 商品（價格＝仲安家官網定價，2026-10-27 抓取；文案只寫成分、規格、用法，不寫療效）=====
    改價格或品項時，backend/Code.gs 的 PRICES 也要一起改（後台用它重算金額，防止被竄改） */
 const PRODUCTS = [
-  {id:'lutein', n:'仲安家葉黃素活力精華飲', tag:'阿嬤自己也有喝', spec:'60ml × 10 瓶／盒', price:950, img:'img/lutein.png',
+  {id:'lutein', n:'仲安家葉黃素活力精華飲', tag:'人氣推薦', spec:'60ml × 10 瓶／盒', price:950, img:'img/lutein.png',
    ing:'水、蔗糖、牛磺酸、葉黃素（FloraGLO®）、玉米黃素、維生素 C、維生素 B 群、胺基酸等；完整成分以包裝標示為準',
    use:'每日限量 1 瓶，飲用前先搖一搖。',
    note:'含植物萃取，如有沉澱或顏色風味略有差異屬自然現象。開封後請盡速飲用完畢。'},
-  {id:'dgg24', n:'仲安家滴雞精 平裝盒', tag:'阿嬤喜歡這個', spec:'50ml × 24 包／盒', price:5000, img:'img/dgg24.jpg',
+  {id:'dgg24', n:'仲安家滴雞精 平裝盒', tag:'熱門品項', spec:'50ml × 24 包／盒', price:5000, img:'img/dgg24.jpg',
    ing:'土雞萃取液（紅羽土雞，文火慢熬，無添加水或高湯）',
    use:'建議空腹飲用，開封後請一次飲用完畢；可直接喝或隔水加熱。',
    note:'常溫保存，避免高溫與陽光直射；保存期限 24 個月。如有沉澱為正常現象；包裝破損、軟袋鼓起或有異味請勿食用。二歲以下幼兒不建議飲用；痛風、高血壓、楓糖尿症及腎臟病患者飲用前請先詢問醫師。已取得 SNQ 國家品質標章（國品字第 P080130 號）。'},
