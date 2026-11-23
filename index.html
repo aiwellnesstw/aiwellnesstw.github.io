@@ -73,9 +73,23 @@ footer a{color:#fff}
 .sticky .in{display:flex;gap:10px;width:100%;max-width:720px;margin:0 auto}
 .cats{position:sticky;top:0;z-index:8;background:var(--bg);padding:8px 0 10px;margin:0 0 6px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
 .cats::-webkit-scrollbar{display:none}
-.cats button{flex:none;border:1px solid var(--line);background:#fff;color:var(--green-dark);border-radius:99px;padding:7px 14px;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer}
-.cats button.on{background:var(--green);border-color:var(--green);color:#fff}
-.cats button i{font-style:normal;font-weight:400;opacity:.7;margin-left:3px}
+.cats button{flex:none;border:1px solid var(--green);background:#fff;color:var(--green-dark);border-radius:99px;padding:7px 18px;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer}
+.cats .lbl{flex:none;align-self:center;font-size:13px;color:var(--muted)}
+.cat{margin-top:22px;scroll-margin-top:56px}
+.cat-h{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:8px}
+.cat-h h3{margin:0;font-size:19px}
+.rail{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x proximity;scroll-padding-left:16px;padding:2px 2px 10px;margin:0 -16px;padding-left:16px;padding-right:16px;scrollbar-width:thin}
+.mini{flex:0 0 152px;scroll-snap-align:start;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px;display:flex;flex-direction:column;gap:2px}
+.mini img{width:100%;height:120px;object-fit:contain;border-radius:8px;background:#f3f6f4}
+.mini h4{margin:6px 0 0;font-size:14px;line-height:1.4;min-height:40px}
+.mini .sp{font-size:12px;color:var(--muted);min-height:18px}
+.mini .pr{font-size:17px;font-weight:700;color:var(--green-dark);margin:2px 0}
+.mini .lnk{margin-top:6px;border:0;background:none;color:var(--green-dark);font-size:13px;font-weight:600;text-align:left;padding:0;cursor:pointer;font-family:inherit}
+#dlg{display:none;position:fixed;inset:0;z-index:20;background:rgba(0,0,0,.45);align-items:flex-end;justify-content:center}
+#dlg .box{background:#fff;width:100%;max-width:720px;max-height:80vh;overflow:auto;border-radius:16px 16px 0 0;padding:16px 16px 28px}
+#dlg .bh{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;margin-bottom:10px}
+#dlg .bh button{border:0;background:#f3f6f4;border-radius:50%;width:34px;height:34px;font-size:16px;cursor:pointer;flex:none}
+@media(min-width:768px){#dlg{align-items:center}#dlg .box{border-radius:16px}}
 </style>
 </head>
 <body>
@@ -95,9 +109,10 @@ footer a{color:#fff}
 
 <section id="products">
   <div class="wrap">
-    <h2>全部商品</h2>
-    <div class="cats" id="cats" role="tablist" aria-label="商品分類"></div>
+    <h2>熱門商品</h2>
     <div class="plist" id="plist"></div>
+    <div class="cats" id="cats" aria-label="商品分類"><span class="lbl">分類</span></div>
+    <div id="sections"></div>
     <p class="hint" style="margin-top:12px">品項與價格同仲安家官網；標示「已售完」的品項暫時無法訂購，有需要可先 LINE 問我。</p>
   </div>
 </section>
@@ -169,6 +184,7 @@ footer a{color:#fff}
   </div>
 </footer>
 
+<div id="dlg" role="dialog" aria-modal="true"><div class="box"><div class="bh"><b id="dlgT"></b><button type="button" id="dlgX" aria-label="關閉">✕</button></div><div id="dlgB"></div></div></div>
 <div class="sticky"><div class="in">
   <a class="btn btn-ghost" href="#products" data-track="cta_products" style="flex:0 0 auto;padding:12px 16px">看商品</a>
   <a class="btn btn-primary" id="goOrder" href="#order" data-track="cta_order">我要訂購</a>
@@ -322,7 +338,34 @@ const qty = {};   // id → 數量
 PRODUCTS.forEach(p=>qty[p.id]=0);
 
 const plist = document.getElementById('plist');
-PRODUCTS.forEach(p=>{
+const HOT = ['lutein','dgg24'];   // 熱門：維持置頂、完整大卡片
+/* 分類：成人／兒童／食品／明智燈（沒列到的歸成人） */
+const CATS = [
+  ['成人', null],
+  ['兒童', ['jhsc-030','jhse-020']],
+  ['食品', ['jgc-060','jhce-012-1','jhbd-001','jhbnn-002','jhtnn-002','jhsnn-007','jhxn-004','jhxob-002','jhtab-001','jhcs-001','jhcs-002']],
+  ['明智燈', ['vitashine-moon','vitashine-floor','vitashine-desk']]
+];
+function catOf(id){ const c = CATS.find(c=>c[1] && c[1].includes(id)); return c ? c[0] : '成人'; }
+
+function detailNodes(p){   // 規格說明內容（用 textContent，不吃 HTML）
+  const box = document.createElement('div'); box.className='spec';
+  const add = t=>{ const d=document.createElement('div'); d.textContent=t; box.appendChild(d); };
+  if(p.lines){ if(!p.lines.length) add('詳細規格請 LINE 詢問。'); p.lines.forEach(add); }
+  else { add('成分：'+p.ing); add('用法：'+p.use); add('注意：'+p.note); }
+  return box;
+}
+function stepper(el,p){
+  el.querySelectorAll('.step button').forEach(b=>b.onclick=()=>{   // 已售完的品項沒有按鈕，不會進到購物車
+    const v = Math.max(0, Math.min(99, qty[p.id] + (+b.dataset.d)));
+    if(v > qty[p.id]) track('cart_add',{product:p.id});
+    qty[p.id] = v; el.querySelector('.step span').textContent = v; renderCart();
+  });
+}
+const STEP = '<span class="step"><button type="button" data-d="-1" aria-label="減少">－</button><span>0</span><button type="button" data-d="1" aria-label="增加">＋</button></span>';
+
+/* 熱門（置頂大卡片） */
+PRODUCTS.filter(p=>HOT.includes(p.id)).forEach(p=>{
   const el = document.createElement('div'); el.className='pcard';
   el.innerHTML = `
     <img src="${p.img}" alt="${p.n}" width="96" height="96" loading="lazy">
@@ -331,54 +374,53 @@ PRODUCTS.forEach(p=>{
       ${p.tag ? `<span class="tag">${p.tag}</span>` : ''}
       <div class="sp">${p.spec}</div>
       <div class="pr">${money(p.price)}</div>
-      <div class="row">${p.soldout
-        ? '<span class="soldout">已售完</span>'
-        : '<span class="step"><button type="button" data-d="-1" aria-label="減少">－</button><span>0</span><button type="button" data-d="1" aria-label="增加">＋</button></span>'}</div>
+      <div class="row">${STEP}</div>
     </div>
-    ${p.lines && !p.lines.length ? '' : `<details class="more"><summary>${p.lines ? '規格說明' : '成分與注意事項'}</summary>
-      ${p.lines ? '<div class="spec"></div>' : '<dl><dt>成分</dt><dd></dd><dt>用法</dt><dd></dd><dt>注意</dt><dd></dd></dl>'}
-    </details>`}`;
-  const dd = el.querySelectorAll('dd');
-  if(dd.length){ dd[0].textContent=p.ing; dd[1].textContent=p.use; dd[2].textContent=p.note; }   // 用 textContent，不吃 HTML
-  const specBox = el.querySelector('.spec');
-  if(specBox) p.lines.forEach(l=>{ const d=document.createElement('div'); d.textContent=l; specBox.appendChild(d); });
+    <details class="more"><summary>${p.lines ? '規格說明' : '成分與注意事項'}</summary></details>`;
   const det = el.querySelector('details');
-  if(det) det.addEventListener('toggle', e=>{ if(e.target.open) track('product_view',{product:p.id}); });
-  el.querySelectorAll('.step button').forEach(b=>b.onclick=()=>{   // 已售完的品項沒有按鈕，不會進到購物車
-    const v = Math.max(0, Math.min(99, qty[p.id] + (+b.dataset.d)));
-    if(v > qty[p.id]) track('cart_add',{product:p.id});
-    qty[p.id] = v; el.querySelector('.step span').textContent = v; renderCart();
-  });
-  plist.appendChild(el);
+  det.appendChild(detailNodes(p));
+  det.addEventListener('toggle', e=>{ if(e.target.open) track('product_view',{product:p.id}); });
+  stepper(el,p); plist.appendChild(el);
 });
 
-/* ===== 分類標籤：42 項分成幾區，點一下只看那一區 ===== */
-const CATS = [
-  ['滴雞精', ['dgg24','jgc-060','jhce-012-1']],
-  ['葉黃素・益生菌', ['lutein','jhln-015','jhse-020','probiotics','jhpc-030','jhfj-020']],
-  ['膠囊保健', ['fish','jgf-003','jhcn-060','jhcm-060','jhmw-060','jhsc-030','jhbc-060','jhbb-060','jhb-120','jhuc-060','jhbm-060','antromax']],
-  ['飲品滋補', ['huangqi','jhbr-030','jhtp-010','jhnd-015','jhge-050','jhcl-007','jhcd-000']],
-  ['燕窩', ['jhbd-001','jhbnn-002','jhtnn-002','jhsnn-007']]
-];
-function catOf(id){ const c = CATS.find(c=>c[1].includes(id)); return c ? c[0] : '其他'; }
-[...plist.children].forEach((el,i)=>{ el.dataset.cat = catOf(PRODUCTS[i].id); });
-(function(){
-  const names = ['全部', ...CATS.map(c=>c[0]), '其他'];
-  const bar = document.getElementById('cats');
-  const cnt = n => n==='全部' ? PRODUCTS.length : PRODUCTS.filter(p=>catOf(p.id)===n).length;
-  names.forEach((n,i)=>{
-    const b = document.createElement('button'); b.type='button'; b.setAttribute('role','tab');
-    if(i===0) b.className='on';
-    b.append(n); const c=document.createElement('i'); c.textContent=cnt(n); b.append(c);
-    b.onclick=()=>{
-      bar.querySelectorAll('button').forEach(x=>x.className = x===b ? 'on' : '');
-      plist.querySelectorAll('.pcard').forEach(el=>el.style.display = (n==='全部'||el.dataset.cat===n) ? '' : 'none');
-      track('cat_view',{product:n});
-      document.getElementById('products').scrollIntoView({behavior:'smooth'});
-    };
-    bar.appendChild(b);
+/* 分類區：每區一排，左右滑看更多 */
+const secBox = document.getElementById('sections');
+const bar = document.getElementById('cats');
+CATS.forEach(([name])=>{
+  const items = PRODUCTS.filter(p=>!HOT.includes(p.id) && catOf(p.id)===name);
+  if(!items.length) return;
+  const sec = document.createElement('div'); sec.className='cat'; sec.id='cat-'+name;
+  sec.innerHTML = `<div class="cat-h"><h3></h3><span class="hint">${items.length} 項・左右滑動看更多 →</span></div><div class="rail"></div>`;
+  sec.querySelector('h3').textContent = name;
+  const rail = sec.querySelector('.rail');
+  items.forEach(p=>{
+    const el = document.createElement('div'); el.className='mini';
+    el.innerHTML = `
+      <img src="${p.img}" alt="${p.n}" width="120" height="120" loading="lazy">
+      <h4></h4>
+      <div class="sp"></div>
+      <div class="pr">${money(p.price)}</div>
+      <div class="row">${p.soldout ? '<span class="soldout">已售完</span>' : STEP}</div>
+      <button type="button" class="lnk">規格說明</button>`;
+    el.querySelector('h4').textContent = p.n; el.querySelector('.sp').textContent = p.spec;
+    el.querySelector('.lnk').onclick = ()=>openDetail(p);
+    stepper(el,p); rail.appendChild(el);
   });
-})();
+  secBox.appendChild(sec);
+  const b = document.createElement('button'); b.type='button'; b.textContent = name;
+  b.onclick = ()=>{ track('cat_view',{product:name}); sec.scrollIntoView({behavior:'smooth', block:'start'}); };
+  bar.appendChild(b);
+});
+
+/* 規格說明視窗 */
+const dlg = document.getElementById('dlg');
+function openDetail(p){
+  document.getElementById('dlgT').textContent = p.n + (p.spec ? '（' + p.spec + '）' : '');
+  document.getElementById('dlgB').replaceChildren(detailNodes(p));
+  dlg.style.display='flex'; track('product_view',{product:p.id});
+}
+dlg.addEventListener('click', e=>{ if(e.target===dlg || e.target.id==='dlgX') dlg.style.display='none'; });
+addEventListener('keydown', e=>{ if(e.key==='Escape') dlg.style.display='none'; });
 
 function lines(){ return PRODUCTS.filter(p=>qty[p.id]>0).map(p=>({id:p.id, n:p.n, q:qty[p.id], sub:p.price*qty[p.id]})); }
 function total(){ return lines().reduce((s,l)=>s+l.sub,0); }
