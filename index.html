@@ -344,6 +344,7 @@ const CATS = [
   ['成人', null],
   ['兒童', ['jhsc-030','jhse-020']],
   ['食品', ['jgc-060','jhce-012-1','jhbd-001','jhbnn-002','jhtnn-002','jhsnn-007','jhxn-004','jhxob-002','jhtab-001','jhcs-001','jhcs-002']],
+  ['居家防護', ['jhnb-010','jhs-300']],
   ['明智燈', ['vitashine-moon','vitashine-floor','vitashine-desk']]
 ];
 function catOf(id){ const c = CATS.find(c=>c[1] && c[1].includes(id)); return c ? c[0] : '成人'; }
